@@ -20,21 +20,17 @@ This repository provides an automated framework for analyzing and improving busi
 
 ```
 ├── data/
-│   ├── groundtruth.txt                     # Reference specifications
-│   ├── faulty.txt                          # Faulty specifications
-│   ├── fault-description.xml               # Descriptions of known faults
-│   ├── BPMNFiles/
-│   │   ├── *.bpmn                          # Business process models
-│   │   ├── order_processing_annotation.json # Annotations for reference
-│   ├── reports/
-│   │   ├── specifications_gap_report.txt   # Analysis of missing/redundant specs
-│   │   ├── specifications_improvements.txt # Improvement suggestions
+│   ├── Additional BPMN XML Files/                # Extra BPMN files for testing
+│   ├── Order Management Process/                 # BPMN models related to order processing
+│   ├── Project Management Process/               # BPMN models for project workflows
+│   ├── Software Development Lifecycle Process/   # BPMN models for SDLC workflows
 ├── src/
-│   ├── specification_analysis.py           # Text-based specification analysis
-│   ├── bpmn_fault_detection.py             # BPMN fault validation & correction
-│   ├── utils.py                             # Helper functions
-│   ├── requirements.txt                     # Python dependencies
-├── README.md                                # Project documentation
+│   ├── Fault Detection/
+│   │   ├── BP_LLM_FaultDetection.ipynb           # Fault detection notebook
+│   ├── Specification Generation/
+│   │   ├── BP_LLM_SpecGeneration.ipynb           # Specification generation notebook
+├── README.md                                      # Project documentation
+├── requirements.txt                               # Python dependencies
 ```
 
 ---
@@ -52,8 +48,8 @@ This repository provides an automated framework for analyzing and improving busi
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/fault-detection-bpmn.git
-   cd fault-detection-bpmn
+   git clone https://github.com/yourusername/BP-LLM-FaultDetection.git
+   cd BP-LLM-FaultDetection
    ```
 2. Install dependencies:
    ```sh
@@ -68,25 +64,25 @@ This repository provides an automated framework for analyzing and improving busi
 
 ## Usage
 
-### Running Specification Analysis
+### Running Fault Detection
 
 ```sh
-python src/specification_analysis.py
+python src/Fault_Detection/BP_LLM_FaultDetection.ipynb
 ```
 
-- Compares `groundtruth.txt` and `faulty.txt` to detect missing or redundant specifications.
-- Generates a `specifications_gap_report.txt` with detected issues.
-- Uses the Ollama Mistral model to suggest corrections in `specifications_improvements.txt`.
-
-### Running BPMN Fault Detection & Correction
-
-```sh
-python src/bpmn_fault_detection.py
-```
-
-- Parses BPMN files in `data/BPMNFiles/`.
+- Parses BPMN files in `data/`.
 - Identifies missing decision gateways, incorrect links, and logic errors.
-- Generates corrected BPMN files in `data/BPMNFiles/corrected_bpmn/`.
+- Generates corrected BPMN files in `data/corrected_bpmn/`.
+- Saves fault reports in `fault_detection_report.txt` and suggested corrections in `fault_solutions.txt`.
+
+### Running Specification Generation
+
+```sh
+python src/Specification_Generation/BP_LLM_SpecGeneration.ipynb
+```
+
+- Analyzes differences between a set of groundtruth specifications and faulty specifications.
+- Uses the Ollama Mistral model to suggest improvements in `specifications_improvements.txt`.
 
 ---
 
@@ -113,9 +109,9 @@ python src/bpmn_fault_detection.py
 ## Results
 
 - **Specification Analysis Metrics:**
-  - **Precision:** 0.92
-  - **Recall:** 0.88
-  - **F1 Score:** 0.91
+  - **Precision:** 0.92  
+  - **Recall:** 0.88  
+  - **F1 Score:** 0.91  
 - **BPMN Fault Detection:**
   - Successfully corrected missing gateways and logical inconsistencies.
   - Improved BPMN process workflows through automated fault detection & correction.
@@ -133,4 +129,3 @@ python src/bpmn_fault_detection.py
 ## License
 
 This project is licensed under the MIT License.
-
