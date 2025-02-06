@@ -26,7 +26,7 @@ This repository provides an automated framework for analyzing and improving busi
 
 A visual summary of this project is available in the **project poster**:
 
-![Project Poster](FaultDetectionInBusinessProcessLogicSystemsUsingLLMs_Poster.pdf)
+[View Project Poster](FaultDetectionInBusinessProcessLogicSystemsUsingLLMs_Poster.pdf)
 
 For a detailed explanation, refer to the documentation and source code in this repository.
 
