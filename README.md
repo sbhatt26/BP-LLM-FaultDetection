@@ -130,15 +130,6 @@ python src/bpmn_fault_detection.py
 
 ---
 
-## Contributors
-
-- **Sunny Bhatt**
-- **Srikanth Narayanan**
-- **Josue Garcia Flores**
-- **Mamatha Reddy Tamilisetti**
-
----
-
 ## License
 
 This project is licensed under the MIT License.
