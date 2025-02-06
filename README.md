@@ -16,6 +16,12 @@ This repository provides an automated framework for analyzing and improving busi
 
 ---
 
+## Recognition
+
+🏆 **3rd Prize Winner** at **Vanderbilt CS Immersion Showcase, Fall 2024**
+
+---
+
 ## Project Structure
 
 ```
