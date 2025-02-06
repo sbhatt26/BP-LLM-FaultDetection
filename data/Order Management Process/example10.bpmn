@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+             id="Definitions_1"
+             targetNamespace="http://bpmn.org/schema/bpmn">
+    <process id="OrderManagementProcess" name="Order Management Process" isExecutable="true">
+        <startEvent id="StartEvent_OrderPlacement" name="Order Placement">
+            <outgoing>Flow_OrderPlacement</outgoing>
+        </startEvent>
+        
+        <exclusiveGateway id="Gateway_OrderType" name="Order Type">
+            <incoming>Flow_OrderPlacement</incoming>
+            <outgoing>Flow_OnlineOrder</outgoing>
+            <outgoing>Flow_InStoreOrder</outgoing>
+        </exclusiveGateway>
+        
+        <task id="Task_CheckOnlineStock" name="Check Online Stock">
+            <incoming>Flow_OnlineOrder</incoming>
+            <outgoing>Flow_StockCheckOnline</outgoing>
+        </task>
+        
+        <task id="Task_CheckInStoreStock" name="Check In-Store Stock">
+            <incoming>Flow_InStoreOrder</incoming>
+            <outgoing>Flow_StockCheckInStore</outgoing>
+        </task>
+        
+        <exclusiveGateway id="Gateway_StockAvailability" name="Stock Availability">
+            <incoming>Flow_StockCheckOnline</incoming>
+            <incoming>Flow_StockCheckInStore</incoming>
+            <outgoing>Flow_StockAvailable</outgoing>
+            <outgoing>Flow_StockNotAvailable</outgoing>
+        </exclusiveGateway>
+        
+        <task id="Task_ConfirmStockOnline" name="Confirm Stock Online">
+            <incoming>Flow_StockAvailable</incoming>
+            <outgoing>Flow_ProceedToPaymentOnline</outgoing>
+        </task>
+        
+        <task id="Task_ConfirmStockInStore" name="Confirm Stock In-Store">
+            <incoming>Flow_StockAvailable</incoming>
+            <outgoing>Flow_ProceedToPaymentInStore</outgoing>
+        </task>
+        
+        <task id="Task_GenerateRestockingRequest" name="Generate Restocking Request">
+            <incoming>Flow_StockNotAvailable</incoming>
+            <outgoing>Flow_CheckRestockingTime</outgoing>
+        </task>
+        
+        <exclusiveGateway id="Gateway_RestockingTime" name="Restocking Time">
+            <incoming>Flow_CheckRestockingTime</incoming>
+            <outgoing>Flow_RestockSoon</outgoing>
+            <outgoing>Flow_RestockLater</outgoing>
+        </exclusiveGateway>
+        
+        <task id="Task_NotifyDelay" name="Notify Delay">
+            <incoming>Flow_RestockSoon</incoming>
+            <outgoing>Flow_ProceedToPaymentOnline</outgoing>
+            <outgoing>Flow_ProceedToPaymentInStore</outgoing>
+        </task>
+        
+        <exclusiveGateway id="Gateway_CustomerChoice" name="Customer Choice">
+            <incoming>Flow_RestockLater</incoming>
+            <outgoing>Flow_CancelOrder</outgoing>
+            <outgoing>Flow_WaitForRestocking</outgoing>
+        </exclusiveGateway>
+        
+        <endEvent id="EndEvent_CancelOrder" name="Cancel Order">
+            <incoming>Flow_CancelOrder</incoming>
+        </endEvent>
+        
+        <task id="Task_WaitForRestocking" name="Wait for Restocking">
+            <incoming>Flow_WaitForRestocking</incoming>
+            <outgoing>Flow_ProceedToPaymentOnline</outgoing>
+            <outgoing>Flow_ProceedToPaymentInStore</outgoing>
+        </task>
+        
+        <task id="Task_ProcessOnlinePayment" name="Process Online Payment">
+            <incoming>Flow_ProceedToPaymentOnline</incoming>
+            <outgoing>Flow_ConfirmPaymentOnline</outgoing>
+        </task>
+        
+        <task id="Task_ProcessInStorePayment" name="Process In-Store Payment">
+            <incoming>Flow_ProceedToPaymentInStore</incoming>
+            <outgoing>Flow_ConfirmPaymentInStore</outgoing>
+        </task>
+        
+        <task id="Task_ConfirmPaymentOnline" name="Confirm Payment Online">
+            <incoming>Flow_ConfirmPaymentOnline</incoming>
+            <outgoing>Flow_OrderFulfillmentOnline</outgoing>
+        </task>
+        
+        <task id="Task_ConfirmPaymentInStore" name="Confirm Payment In-Store">
+            <incoming>Flow_ConfirmPaymentInStore</incoming>
+            <outgoing>Flow_OrderFulfillmentInStore</outgoing>
+        </task>
+        
+        <task id="Task_FulfillOnlineOrder" name="Fulfill Online Order">
+            <incoming>Flow_OrderFulfillmentOnline</incoming>
+            <outgoing>Flow_Shipping</outgoing>
+        </task>
+        
+        <task id="Task_FulfillInStoreOrder" name="Fulfill In-Store Order">
+            <incoming>Flow_OrderFulfillmentInStore</incoming>
+            <outgoing>Flow_Shipping</outgoing>
+        </task>
+        
+        <task id="Task_Shipping" name="Shipping">
+            <incoming>Flow_Shipping</incoming>
+            <outgoing>Flow_ShippingConfirmation</outgoing>
+        </task>
+        
+        <task id="Task_ShippingConfirmation" name="Shipping Confirmation">
+            <incoming>Flow_ShippingConfirmation</incoming>
+            <outgoing>Flow_OrderClosure</outgoing>
+        </task>
+        
+        <endEvent id="EndEvent_OrderClosure" name="Order Closure">
+            <incoming>Flow_OrderClosure</incoming>
+        </endEvent>
+        
+        <sequenceFlow id="Flow_OrderPlacement" sourceRef="StartEvent_OrderPlacement" targetRef="Gateway_OrderType"/>
+        <sequenceFlow id="Flow_OnlineOrder" sourceRef="Gateway_OrderType" targetRef="Task_CheckOnlineStock"/>
+        <sequenceFlow id="Flow_InStoreOrder" sourceRef="Gateway_OrderType" targetRef="Task_CheckInStoreStock"/>
+        <sequenceFlow id="Flow_StockCheckOnline" sourceRef="Task_CheckOnlineStock" targetRef="Gateway_StockAvailability"/>
+        <sequenceFlow id="Flow_StockCheckInStore" sourceRef="Task_CheckInStoreStock" targetRef="Gateway_StockAvailability"/>
+        <sequenceFlow id="Flow_StockAvailable" sourceRef="Gateway_StockAvailability" targetRef="Task_ConfirmStockOnline"/>
+        <sequenceFlow id="Flow_StockAvailable" sourceRef="Gateway_StockAvailability" targetRef="Task_ConfirmStockInStore"/>
+        <sequenceFlow id="Flow_StockNotAvailable" sourceRef="Gateway_StockAvailability" targetRef="Task_GenerateRestockingRequest"/>
+        <sequenceFlow id="Flow_CheckRestockingTime" sourceRef="Task_GenerateRestockingRequest" targetRef="Gateway_RestockingTime"/>
+        <sequenceFlow id="Flow_RestockSoon" sourceRef="Gateway_RestockingTime" targetRef="Task_NotifyDelay"/>
+        <sequenceFlow id="Flow_RestockLater" sourceRef="Gateway_RestockingTime" targetRef="Gateway_CustomerChoice"/>
+        <sequenceFlow id="Flow_CancelOrder" sourceRef="Gateway_CustomerChoice" targetRef="EndEvent_CancelOrder"/>
+        <sequenceFlow id="Flow_WaitForRestocking" sourceRef="Gateway_CustomerChoice" targetRef="Task_WaitForRestocking"/>
+        <sequenceFlow id="Flow_ProceedToPaymentOnline" sourceRef="Task_ConfirmStockOnline" targetRef="Task_ProcessOnlinePayment"/>
+        <sequenceFlow id="Flow_ProceedToPaymentOnline" sourceRef="Task_NotifyDelay" targetRef="Task_ProcessOnlinePayment"/>
+        <sequenceFlow id="Flow_ProceedToPaymentOnline" sourceRef="Task_WaitForRestocking" targetRef="Task_ProcessOnlinePayment"/>
+        <sequenceFlow id="Flow_ProceedToPaymentInStore" sourceRef="Task_ConfirmStockInStore" targetRef="Task_ProcessInStorePayment"/>
+        <sequenceFlow id="Flow_ProceedToPaymentInStore" sourceRef="Task_NotifyDelay" targetRef="Task_ProcessInStorePayment"/>
+        <sequenceFlow id="Flow_ProceedToPaymentInStore" sourceRef="Task_WaitForRestocking" targetRef="Task_ProcessInStorePayment"/>
+        <sequenceFlow id="Flow_ConfirmPaymentOnline" sourceRef="Task_ProcessOnlinePayment" targetRef="Task_ConfirmPaymentOnline"/>
+        <sequenceFlow id="Flow_ConfirmPaymentInStore" sourceRef="Task_ProcessInStorePayment" targetRef="Task_ConfirmPaymentInStore"/>
+        <sequenceFlow id="Flow_OrderFulfillmentOnline" sourceRef="Task_ConfirmPaymentOnline" targetRef="Task_FulfillOnlineOrder"/>
+        <sequenceFlow id="Flow_OrderFulfillmentInStore" sourceRef="Task_ConfirmPaymentInStore" targetRef="Task_FulfillInStoreOrder"/>
+        <sequenceFlow id="Flow_Shipping" sourceRef="Task_FulfillOnlineOrder" targetRef="Task_Shipping"/>
+        <sequenceFlow id="Flow_Shipping" sourceRef="Task_FulfillInStoreOrder" targetRef="Task_Shipping"/>
+        <sequenceFlow id="Flow_ShippingConfirmation" sourceRef="Task_Shipping" targetRef="Task_ShippingConfirmation"/>
+        <sequenceFlow id="Flow_OrderClosure" sourceRef="Task_ShippingConfirmation" targetRef="EndEvent_OrderClosure"/>
+    </process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+        <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="OrderManagementProcess">
+            <bpmndi:BPMNShape id="BPMNShape_StartEvent_OrderPlacement" bpmnElement="StartEvent_OrderPlacement">
+                <dc:Bounds x="173" y="102" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_OrderType" bpmnElement="Gateway_OrderType">
+                <dc:Bounds x="236" y="102" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_CheckOnlineStock" bpmnElement="Task_CheckOnlineStock">
+                <dc:Bounds x="306" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_CheckInStoreStock" bpmnElement="Task_CheckInStoreStock">
+                <dc:Bounds x="306" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_StockAvailability" bpmnElement="Gateway_StockAvailability">
+                <dc:Bounds x="426" y="140" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ConfirmStockOnline" bpmnElement="Task_ConfirmStockOnline">
+                <dc:Bounds x="506" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ConfirmStockInStore" bpmnElement="Task_ConfirmStockInStore">
+                <dc:Bounds x="506" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_GenerateRestockingRequest" bpmnElement="Task_GenerateRestockingRequest">
+                <dc:Bounds x="506" y="280" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_RestockingTime" bpmnElement="Gateway_RestockingTime">
+                <dc:Bounds x="626" y="300" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_NotifyDelay" bpmnElement="Task_NotifyDelay">
+                <dc:Bounds x="706" y="280" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_CustomerChoice" bpmnElement="Gateway_CustomerChoice">
+                <dc:Bounds x="826" y="300" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_EndEvent_CancelOrder" bpmnElement="EndEvent_CancelOrder">
+                <dc:Bounds x="906" y="300" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_WaitForRestocking" bpmnElement="Task_WaitForRestocking">
+                <dc:Bounds x="906" y="380" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ProcessOnlinePayment" bpmnElement="Task_ProcessOnlinePayment">
+                <dc:Bounds x="626" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ProcessInStorePayment" bpmnElement="Task_ProcessInStorePayment">
+                <dc:Bounds x="626" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ConfirmPaymentOnline" bpmnElement="Task_ConfirmPaymentOnline">
+                <dc:Bounds x="746" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ConfirmPaymentInStore" bpmnElement="Task_ConfirmPaymentInStore">
+                <dc:Bounds x="746" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_FulfillOnlineOrder" bpmnElement="Task_FulfillOnlineOrder">
+                <dc:Bounds x="866" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_FulfillInStoreOrder" bpmnElement="Task_FulfillInStoreOrder">
+                <dc:Bounds x="866" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_Shipping" bpmnElement="Task_Shipping">
+                <dc:Bounds x="986" y="130" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ShippingConfirmation" bpmnElement="Task_ShippingConfirmation">
+                <dc:Bounds x="1106" y="130" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_EndEvent_OrderClosure" bpmnElement="EndEvent_OrderClosure">
+                <dc:Bounds x="1226" y="150" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_OrderPlacement" bpmnElement="Flow_OrderPlacement">
+                <di:waypoint x="209" y="120"/>
+                <di:waypoint x="236" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_OnlineOrder" bpmnElement="Flow_OnlineOrder">
+                <di:waypoint x="286" y="120"/>
+                <di:waypoint x="306" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_InStoreOrder" bpmnElement="Flow_InStoreOrder">
+                <di:waypoint x="286" y="150"/>
+                <di:waypoint x="306" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_StockCheckOnline" bpmnElement="Flow_StockCheckOnline">
+                <di:waypoint x="406" y="120"/>
+                <di:waypoint x="426" y="165"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_StockCheckInStore" bpmnElement="Flow_StockCheckInStore">
+                <di:waypoint x="406" y="220"/>
+                <di:waypoint x="426" y="190"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_StockAvailable" bpmnElement="Flow_StockAvailable">
+                <di:waypoint x="476" y="165"/>
+                <di:waypoint x="506" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_StockAvailable" bpmnElement="Flow_StockAvailable">
+                <di:waypoint x="476" y="190"/>
+                <di:waypoint x="506" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_StockNotAvailable" bpmnElement="Flow_StockNotAvailable">
+                <di:waypoint x="476" y="215"/>
+                <di:waypoint x="506" y="320"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_CheckRestockingTime" bpmnElement="Flow_CheckRestockingTime">
+                <di:waypoint x="606" y="320"/>
+                <di:waypoint x="626" y="325"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_RestockSoon" bpmnElement="Flow_RestockSoon">
+                <di:waypoint x="676" y="325"/>
+                <di:waypoint x="706" y="320"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_RestockLater" bpmnElement="Flow_RestockLater">
+                <di:waypoint x="676" y="350"/>
+                <di:waypoint x="826" y="325"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_CancelOrder" bpmnElement="Flow_CancelOrder">
+                <di:waypoint x="876" y="325"/>
+                <di:waypoint x="906" y="318"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_WaitForRestocking" bpmnElement="Flow_WaitForRestocking">
+                <di:waypoint x="876" y="350"/>
+                <di:waypoint x="906" y="420"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_ProceedToPaymentOnline" bpmnElement="Flow_ProceedToPaymentOnline">
+                <di:waypoint x="606" y="120"/>
+                <di:waypoint x="626" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_ProceedToPaymentOnline" bpmnElement="Flow_ProceedToPaymentOnline">
+                <di:waypoint x="806" y="120"/>
+                <di:waypoint x="746" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_ProceedToPaymentOnline" bpmnElement="Flow_ProceedToPaymentOnline">
+                <di:waypoint x="1006" y="420"/>
+                <di:waypoint x="746" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_ProceedToPaymentInStore" bpmnElement="Flow_ProceedToPaymentInStore">
+                <di:waypoint x="606" y="220"/>
+                <di:waypoint x="626" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_ProceedToPaymentInStore" bpmnElement="Flow_ProceedToPaymentInStore">
+                <di:waypoint x="806" y="220"/>
+                <di:waypoint x="746" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_ProceedToPaymentInStore" bpmnElement="Flow_ProceedToPaymentInStore">
+                <di:waypoint x="1006" y="420"/>
+                <di:waypoint x="746" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_ConfirmPaymentOnline" bpmnElement="Flow_ConfirmPaymentOnline">
+                <di:waypoint x="726" y="120"/>
+                <di:waypoint x="746" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_ConfirmPaymentInStore" bpmnElement="Flow_ConfirmPaymentInStore">
+                <di:waypoint x="726" y="220"/>
+                <di:waypoint x="746" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_OrderFulfillmentOnline" bpmnElement="Flow_OrderFulfillmentOnline">
+                <di:waypoint x="846" y="120"/>
+                <di:waypoint x="866" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_OrderFulfillmentInStore" bpmnElement="Flow_OrderFulfillmentInStore">
+                <di:waypoint x="846" y="220"/>
+                <di:waypoint x="866" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_Shipping" bpmnElement="Flow_Shipping">
+                <di:waypoint x="966" y="120"/>
+                <di:waypoint x="986" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_Shipping" bpmnElement="Flow_Shipping">
+                <di:waypoint x="966" y="220"/>
+                <di:waypoint x="986" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_ShippingConfirmation" bpmnElement="Flow_ShippingConfirmation">
+                <di:waypoint x="1086" y="120"/>
+                <di:waypoint x="1106" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_OrderClosure" bpmnElement="Flow_OrderClosure">
+                <di:waypoint x="1186" y="150"/>
+                <di:waypoint x="1226" y="150"/>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</definitions>

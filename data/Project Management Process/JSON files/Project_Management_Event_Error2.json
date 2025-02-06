@@ -1,0 +1,191 @@
+{
+    "ProjectManagementProcess.bpmn": [
+        {
+            "type": "Task",
+            "id": "Task_ProjectInitiation",
+            "name": "Project Initiation"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_KickoffOrStrategy",
+            "name": "Kickoff or Strategy"
+        },
+        {
+            "type": "Task",
+            "id": "Task_ClientKickoff",
+            "name": "Client Kickoff Meeting"
+        },
+        {
+            "type": "Task",
+            "id": "Task_InternalStrategy",
+            "name": "Internal Strategy Session"
+        },
+        {
+            "type": "Task",
+            "id": "Task_RequirementsGathering",
+            "name": "Requirements Gathering"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_RequirementsClear",
+            "name": "Requirements Clear?"
+        },
+        {
+            "type": "Task",
+            "id": "Task_ClarifyRequirements",
+            "name": "Clarify Requirements"
+        },
+        {
+            "type": "Task",
+            "id": "Task_ProjectPlanning",
+            "name": "Project Planning"
+        },
+        {
+            "type": "Task",
+            "id": "Task_Approval",
+            "name": "Approval from Sponsor"
+        },
+        {
+            "type": "Task",
+            "id": "Task_TaskAssignment",
+            "name": "Task Assignment and Execution"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_TaskDelayed",
+            "name": "Task Delayed?"
+        },
+        {
+            "type": "Task",
+            "id": "Task_Escalation",
+            "name": "Escalation"
+        },
+        {
+            "type": "Task",
+            "id": "Task_Monitoring",
+            "name": "Project Monitoring and Reporting"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_MilestonesMet",
+            "name": "Milestones Met?"
+        },
+        {
+            "type": "Task",
+            "id": "Task_AdjustPlan",
+            "name": "Adjust Plan"
+        },
+        {
+            "type": "Task",
+            "id": "Task_ProjectHandover",
+            "name": "Project Handover and Closure"
+        },
+        {
+            "type": "Task",
+            "id": "Task_ClosureReport",
+            "name": "Project Closure Report"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_1",
+            "sourceRef": "Task_ProjectInitiation",
+            "targetRef": "Gateway_KickoffOrStrategy"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_2",
+            "sourceRef": "Gateway_KickoffOrStrategy",
+            "targetRef": "Task_ClientKickoff"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_3",
+            "sourceRef": "Gateway_KickoffOrStrategy",
+            "targetRef": "Task_InternalStrategy"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_4",
+            "sourceRef": "Task_ClientKickoff",
+            "targetRef": "Task_RequirementsGathering"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_4_2",
+            "sourceRef": "Task_InternalStrategy",
+            "targetRef": "Task_RequirementsGathering"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_5",
+            "sourceRef": "Task_RequirementsGathering",
+            "targetRef": "Gateway_RequirementsClear"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_6",
+            "sourceRef": "Gateway_RequirementsClear",
+            "targetRef": "Task_ProjectPlanning"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_7",
+            "sourceRef": "Gateway_RequirementsClear",
+            "targetRef": "Task_ClarifyRequirements"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_8",
+            "sourceRef": "Task_ProjectPlanning",
+            "targetRef": "Task_Approval"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_9",
+            "sourceRef": "Task_Approval",
+            "targetRef": "Task_TaskAssignment"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_10",
+            "sourceRef": "Task_TaskAssignment",
+            "targetRef": "Gateway_TaskDelayed"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_11",
+            "sourceRef": "Gateway_TaskDelayed",
+            "targetRef": "Task_Monitoring"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_12",
+            "sourceRef": "Gateway_TaskDelayed",
+            "targetRef": "Task_Escalation"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_13",
+            "sourceRef": "Task_Monitoring",
+            "targetRef": "Gateway_MilestonesMet"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_14",
+            "sourceRef": "Gateway_MilestonesMet",
+            "targetRef": "Task_ProjectHandover"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_15",
+            "sourceRef": "Gateway_MilestonesMet",
+            "targetRef": "Task_AdjustPlan"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_16",
+            "sourceRef": "Task_ProjectHandover",
+            "targetRef": "Task_ClosureReport"
+        }
+    ]
+}

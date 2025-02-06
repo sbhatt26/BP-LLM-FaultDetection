@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+             id="Definitions_1"
+             targetNamespace="http://bpmn.org/schema/bpmn">
+    <process id="OrderManagementProcess" name="Order Management Process" isExecutable="true">
+        <startEvent id="StartEvent_OrderPlacement" name="Order Placement">
+            <outgoing>Flow_OnlineOrInStore</outgoing>
+        </startEvent>
+
+        <!-- Order Placement -->
+        <exclusiveGateway id="Gateway_OnlineOrInStore" name="Online or In-Store">
+            <incoming>Flow_OnlineOrInStore</incoming>
+            <outgoing>Flow_OnlineOrder</outgoing>
+            <outgoing>Flow_InStoreOrder</outgoing>
+        </exclusiveGateway>
+        
+        <task id="Task_CheckOnlineAvailability" name="Check Online Availability">
+            <incoming>Flow_OnlineOrder</incoming>
+            <outgoing>Flow_CheckStock</outgoing>
+        </task>
+        
+        <task id="Task_CheckInStoreAvailability" name="Check In-Store Availability">
+            <incoming>Flow_InStoreOrder</incoming>
+            <outgoing>Flow_CheckStock</outgoing>
+        </task>
+        
+        <sequenceFlow id="Flow_OnlineOrInStore" sourceRef="StartEvent_OrderPlacement" targetRef="Gateway_OnlineOrInStore"/>
+        <sequenceFlow id="Flow_OnlineOrder" sourceRef="Gateway_OnlineOrInStore" targetRef="Task_CheckOnlineAvailability"/>
+        <sequenceFlow id="Flow_InStoreOrder" sourceRef="Gateway_OnlineOrInStore" targetRef="Task_CheckInStoreAvailability"/>
+        
+        <!-- Stock Check -->
+        <exclusiveGateway id="Gateway_CheckStock" name="Stock Check">
+            <incoming>Flow_CheckStock</incoming>
+            <outgoing>Flow_StockAvailable</outgoing>
+            <outgoing>Flow_StockNotAvailable</outgoing>
+        </exclusiveGateway>
+        
+        <task id="Task_ConfirmAvailability" name="Confirm Availability">
+            <incoming>Flow_StockAvailable</incoming>
+            <outgoing>Flow_OrderPayment</outgoing>
+        </task>
+        
+        <task id="Task_RestockRequest" name="Generate Restocking Request">
+            <incoming>Flow_StockNotAvailable</incoming>
+            <outgoing>Flow_CheckRestockTime</outgoing>
+        </task>
+        
+        <exclusiveGateway id="Gateway_CheckRestockTime" name="Check Restock Time">
+            <incoming>Flow_CheckRestockTime</incoming>
+            <outgoing>Flow_StockSoon</outgoing>
+            <outgoing>Flow_StockLater</outgoing>
+        </exclusiveGateway>
+        
+        <task id="Task_NotifyDelay" name="Notify Customer of Delay">
+            <incoming>Flow_StockSoon</incoming>
+            <outgoing>Flow_OrderPayment</outgoing>
+        </task>
+        
+        <task id="Task_CancelOrWait" name="Customer Decides to Cancel or Wait">
+            <incoming>Flow_StockLater</incoming>
+            <outgoing>Flow_OrderPayment</outgoing>
+        </task>
+        
+        <sequenceFlow id="Flow_CheckStock" sourceRef="Task_CheckOnlineAvailability" targetRef="Gateway_CheckStock"/>
+        <sequenceFlow id="Flow_CheckStock" sourceRef="Task_CheckInStoreAvailability" targetRef="Gateway_CheckStock"/>
+        <sequenceFlow id="Flow_StockAvailable" sourceRef="Gateway_CheckStock" targetRef="Task_ConfirmAvailability"/>
+        <sequenceFlow id="Flow_StockNotAvailable" sourceRef="Gateway_CheckStock" targetRef="Task_RestockRequest"/>
+        <sequenceFlow id="Flow_CheckRestockTime" sourceRef="Task_RestockRequest" targetRef="Gateway_CheckRestockTime"/>
+        <sequenceFlow id="Flow_StockSoon" sourceRef="Gateway_CheckRestockTime" targetRef="Task_NotifyDelay"/>
+        <sequenceFlow id="Flow_StockLater" sourceRef="Gateway_CheckRestockTime" targetRef="Task_CancelOrWait"/>
+        
+        <!-- Order Payment -->
+        <task id="Task_ProcessPayment" name="Process Payment">
+            <incoming>Flow_OrderPayment</incoming>
+            <outgoing>Flow_OrderFulfillment</outgoing>
+        </task>
+        
+        <sequenceFlow id="Flow_OrderPayment" sourceRef="Task_ConfirmAvailability" targetRef="Task_ProcessPayment"/>
+        <sequenceFlow id="Flow_OrderPayment" sourceRef="Task_NotifyDelay" targetRef="Task_ProcessPayment"/>
+        <sequenceFlow id="Flow_OrderPayment" sourceRef="Task_CancelOrWait" targetRef="Task_ProcessPayment"/>
+        
+        <!-- Order Fulfillment -->
+        <task id="Task_ForwardToWarehouse" name="Forward to Warehouse">
+            <incoming>Flow_OrderFulfillment</incoming>
+            <outgoing>Flow_Shipping</outgoing>
+        </task>
+        
+        <sequenceFlow id="Flow_OrderFulfillment" sourceRef="Task_ProcessPayment" targetRef="Task_ForwardToWarehouse"/>
+        
+        <!-- Shipping -->
+        <task id="Task_PackageGoods" name="Package Goods">
+            <incoming>Flow_Shipping</incoming>
+            <outgoing>Flow_SelectShippingCompany</outgoing>
+        </task>
+        
+        <task id="Task_SelectShippingCompany" name="Select Shipping Company">
+            <incoming>Flow_SelectShippingCompany</incoming>
+            <outgoing>Flow_ArrangePickup</outgoing>
+        </task>
+        
+        <task id="Task_ArrangePickup" name="Arrange Pickup">
+            <incoming>Flow_ArrangePickup</incoming>
+            <outgoing>Flow_ShippingConfirmation</outgoing>
+        </task>
+        
+        <task id="Task_ShippingConfirmation" name="Send Shipping Confirmation">
+            <incoming>Flow_ShippingConfirmation</incoming>
+            <outgoing>Flow_OrderClosure</outgoing>
+        </task>
+        
+        <sequenceFlow id="Flow_Shipping" sourceRef="Task_ForwardToWarehouse" targetRef="Task_PackageGoods"/>
+        <sequenceFlow id="Flow_SelectShippingCompany" sourceRef="Task_PackageGoods" targetRef="Task_SelectShippingCompany"/>
+        <sequenceFlow id="Flow_ArrangePickup" sourceRef="Task_SelectShippingCompany" targetRef="Task_ArrangePickup"/>
+        <sequenceFlow id="Flow_ShippingConfirmation" sourceRef="Task_ArrangePickup" targetRef="Task_ShippingConfirmation"/>
+        
+        <!-- Order Closure -->
+        <task id="Task_MarkOrderComplete" name="Mark Order as Complete">
+            <incoming>Flow_OrderClosure</incoming>
+            <outgoing>Flow_EndEvent</outgoing>
+        </task>
+        
+        <endEvent id="EndEvent_OrderComplete" name="Order Complete">
+            <incoming>Flow_EndEvent</incoming>
+        </endEvent>
+        
+        <sequenceFlow id="Flow_OrderClosure" sourceRef="Task_ShippingConfirmation" targetRef="Task_MarkOrderComplete"/>
+        <sequenceFlow id="Flow_EndEvent" sourceRef="Task_MarkOrderComplete" targetRef="EndEvent_OrderComplete"/>
+    </process>
+    
+    <bpmndi:BPMNDiagram id="BPMNDiagram_OrderManagementProcess">
+        <bpmndi:BPMNPlane id="BPMNPlane_OrderManagementProcess" bpmnElement="OrderManagementProcess">
+            <bpmndi:BPMNShape id="BPMNShape_StartEvent_OrderPlacement" bpmnElement="StartEvent_OrderPlacement">
+                <dc:Bounds x="173" y="102" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_OnlineOrInStore" bpmnElement="Gateway_OnlineOrInStore">
+                <dc:Bounds x="236" y="102" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_CheckOnlineAvailability" bpmnElement="Task_CheckOnlineAvailability">
+                <dc:Bounds x="336" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_CheckInStoreAvailability" bpmnElement="Task_CheckInStoreAvailability">
+                <dc:Bounds x="336" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_CheckStock" bpmnElement="Gateway_CheckStock">
+                <dc:Bounds x="486" y="102" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ConfirmAvailability" bpmnElement="Task_ConfirmAvailability">
+                <dc:Bounds x="586" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_RestockRequest" bpmnElement="Task_RestockRequest">
+                <dc:Bounds x="586" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_CheckRestockTime" bpmnElement="Gateway_CheckRestockTime">
+                <dc:Bounds x="736" y="202" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_NotifyDelay" bpmnElement="Task_NotifyDelay">
+                <dc:Bounds x="836" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_CancelOrWait" bpmnElement="Task_CancelOrWait">
+                <dc:Bounds x="836" y="280" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ProcessPayment" bpmnElement="Task_ProcessPayment">
+                <dc:Bounds x="986" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ForwardToWarehouse" bpmnElement="Task_ForwardToWarehouse">
+                <dc:Bounds x="1136" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_PackageGoods" bpmnElement="Task_PackageGoods">
+                <dc:Bounds x="1286" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_SelectShippingCompany" bpmnElement="Task_SelectShippingCompany">
+                <dc:Bounds x="1436" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ArrangePickup" bpmnElement="Task_ArrangePickup">
+                <dc:Bounds x="1586" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ShippingConfirmation" bpmnElement="Task_ShippingConfirmation">
+                <dc:Bounds x="1736" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_MarkOrderComplete" bpmnElement="Task_MarkOrderComplete">
+                <dc:Bounds x="1886" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_EndEvent_OrderComplete" bpmnElement="EndEvent_OrderComplete">
+                <dc:Bounds x="2036" y="102" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_OnlineOrInStore" bpmnElement="Flow_OnlineOrInStore">
+                <di:waypoint x="209" y="120"/>
+                <di:waypoint x="236" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_OnlineOrder" bpmnElement="Flow_OnlineOrder">
+                <di:waypoint x="286" y="120"/>
+                <di:waypoint x="336" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_InStoreOrder" bpmnElement="Flow_InStoreOrder">
+                <di:waypoint x="286" y="120"/>
+                <di:waypoint x="336" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_CheckStock" bpmnElement="Flow_CheckStock">
+                <di:waypoint x="436" y="120"/>
+                <di:waypoint x="486" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_StockAvailable" bpmnElement="Flow_StockAvailable">
+                <di:waypoint x="536" y="120"/>
+                <di:waypoint x="586" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_StockNotAvailable" bpmnElement="Flow_StockNotAvailable">
+                <di:waypoint x="536" y="120"/>
+                <di:waypoint x="586" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_CheckRestockTime" bpmnElement="Flow_CheckRestockTime">
+                <di:waypoint x="686" y="220"/>
+                <di:waypoint x="736" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_StockSoon" bpmnElement="Flow_StockSoon">
+                <di:waypoint x="786" y="220"/>
+                <di:waypoint x="836" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_StockLater" bpmnElement="Flow_StockLater">
+                <di:waypoint x="786" y="220"/>
+                <di:waypoint x="836" y="320"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_OrderPayment" bpmnElement="Flow_OrderPayment">
+                <di:waypoint x="686" y="120"/>
+                <di:waypoint x="986" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_OrderFulfillment" bpmnElement="Flow_OrderFulfillment">
+                <di:waypoint x="1086" y="120"/>
+                <di:waypoint x="1136" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_Shipping" bpmnElement="Flow_Shipping">
+                <di:waypoint x="1186" y="120"/>
+                <di:waypoint x="1286" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_SelectShippingCompany" bpmnElement="Flow_SelectShippingCompany">
+                <di:waypoint x="1386" y="120"/>
+                <di:waypoint x="1436" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_ArrangePickup" bpmnElement="Flow_ArrangePickup">
+                <di:waypoint x="1536" y="120"/>
+                <di:waypoint x="1586" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_ShippingConfirmation" bpmnElement="Flow_ShippingConfirmation">
+                <di:waypoint x="1636" y="120"/>
+                <di:waypoint x="1736" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_OrderClosure" bpmnElement="Flow_OrderClosure">
+                <di:waypoint x="1786" y="120"/>
+                <di:waypoint x="1886" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_EndEvent" bpmnElement="Flow_EndEvent">
+                <di:waypoint x="1986" y="120"/>
+                <di:waypoint x="2036" y="120"/>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</definitions>

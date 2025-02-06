@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.org/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="17.7.1" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <process id="Software_Development_Lifecycle_Process" isExecutable="false">
+    <startEvent id="StartEvent_1" name="Start">
+      <outgoing>Flow_1</outgoing>
+    </startEvent>
+    <task id="Task_Requirements_Analysis" name="Requirements Analysis">
+      <incoming>Flow_1</incoming>
+      <outgoing>Flow_2</outgoing>
+    </task>
+    <exclusiveGateway id="Gateway_Requirements_Clarification" name="Requirements Clarified?">
+      <incoming>Flow_2</incoming>
+      <outgoing>Flow_3</outgoing>
+      <outgoing>Flow_4</outgoing>
+    </exclusiveGateway>
+    <task id="Task_Gather_User_Stories" name="Gather User Stories">
+      <incoming>Flow_4</incoming>
+      <outgoing>Flow_5</outgoing>
+    </task>
+    <sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_Requirements_Analysis" />
+    <sequenceFlow id="Flow_2" sourceRef="Task_Requirements_Analysis" targetRef="Gateway_Requirements_Clarification" />
+    <sequenceFlow id="Flow_3" sourceRef="Gateway_Requirements_Clarification" targetRef="Task_System_Design" />
+    <sequenceFlow id="Flow_4" sourceRef="Gateway_Requirements_Clarification" targetRef="Task_Gather_User_Stories" />
+    <sequenceFlow id="Flow_5" sourceRef="Task_Gather_User_Stories" targetRef="Task_Requirements_Analysis" />
+    
+    <task id="Task_System_Design" name="System Design">
+      <incoming>Flow_3</incoming>
+      <outgoing>Flow_6</outgoing>
+    </task>
+    <exclusiveGateway id="Gateway_Design_Approval" name="Design Approved?">
+      <incoming>Flow_6</incoming>
+      <outgoing>Flow_7</outgoing>
+      <outgoing>Flow_8</outgoing>
+    </exclusiveGateway>
+    <task id="Task_Design_Review" name="Design Review">
+      <incoming>Flow_8</incoming>
+      <outgoing>Flow_9</outgoing>
+    </task>
+    <sequenceFlow id="Flow_6" sourceRef="Task_System_Design" targetRef="Gateway_Design_Approval" />
+    <sequenceFlow id="Flow_7" sourceRef="Gateway_Design_Approval" targetRef="Task_Implementation" />
+    <sequenceFlow id="Flow_8" sourceRef="Gateway_Design_Approval" targetRef="Task_Design_Review" />
+    <sequenceFlow id="Flow_9" sourceRef="Task_Design_Review" targetRef="Task_System_Design" />
+    
+    <task id="Task_Implementation" name="Implementation">
+      <incoming>Flow_7</incoming>
+      <outgoing>Flow_10</outgoing>
+    </task>
+    <exclusiveGateway id="Gateway_Coding_Delay" name="Coding Delayed?">
+      <incoming>Flow_10</incoming>
+      <outgoing>Flow_11</outgoing>
+      <outgoing>Flow_12</outgoing>
+    </exclusiveGateway>
+    <task id="Task_Manage_Delay" name="Manage Delay">
+      <incoming>Flow_12</incoming>
+      <outgoing>Flow_13</outgoing>
+    </task>
+    <sequenceFlow id="Flow_10" sourceRef="Task_Implementation" targetRef="Gateway_Coding_Delay" />
+    <sequenceFlow id="Flow_11" sourceRef="Gateway_Coding_Delay" targetRef="Task_Testing" />
+    <sequenceFlow id="Flow_12" sourceRef="Gateway_Coding_Delay" targetRef="Task_Manage_Delay" />
+    <sequenceFlow id="Flow_13" sourceRef="Task_Manage_Delay" targetRef="Task_Implementation" />
+    
+    <task id="Task_Testing" name="Testing">
+      <incoming>Flow_11</incoming>
+      <outgoing>Flow_14</outgoing>
+    </task>
+    <exclusiveGateway id="Gateway_Defects_Found" name="Defects Found?">
+      <incoming>Flow_14</incoming>
+      <outgoing>Flow_15</outgoing>
+      <outgoing>Flow_16</outgoing>
+    </exclusiveGateway>
+    <task id="Task_Report_Defects" name="Report Defects">
+      <incoming>Flow_16</incoming>
+      <outgoing>Flow_17</outgoing>
+    </task>
+    <sequenceFlow id="Flow_14" sourceRef="Task_Testing" targetRef="Gateway_Defects_Found" />
+    <sequenceFlow id="Flow_15" sourceRef="Gateway_Defects_Found" targetRef="Task_Deployment" />
+    <sequenceFlow id="Flow_16" sourceRef="Gateway_Defects_Found" targetRef="Task_Report_Defects" />
+    <sequenceFlow id="Flow_17" sourceRef="Task_Report_Defects" targetRef="Task_Implementation" />
+    
+    <task id="Task_Deployment" name="Deployment">
+      <incoming>Flow_15</incoming>
+      <outgoing>Flow_18</outgoing>
+    </task>
+    <task id="Task_Deployment_Checklist" name="Deployment Checklist">
+      <incoming>Flow_18</incoming>
+      <outgoing>Flow_19</outgoing>
+    </task>
+    <sequenceFlow id="Flow_18" sourceRef="Task_Deployment" targetRef="Task_Deployment_Checklist" />
+    <sequenceFlow id="Flow_19" sourceRef="Task_Deployment_Checklist" targetRef="Task_Maintenance" />
+    
+    <task id="Task_Maintenance" name="Maintenance">
+      <incoming>Flow_19</incoming>
+      <outgoing>Flow_20</outgoing>
+    </task>
+    <exclusiveGateway id="Gateway_Critical_Issues" name="Critical Issues?">
+      <incoming>Flow_20</incoming>
+      <outgoing>Flow_21</outgoing>
+      <outgoing>Flow_22</outgoing>
+    </exclusiveGateway>
+    <task id="Task_Develop_Hotfix" name="Develop Hotfix">
+      <incoming>Flow_22</incoming>
+      <outgoing>Flow_23</outgoing>
+    </task>
+    <sequenceFlow id="Flow_20" sourceRef="Task_Maintenance" targetRef="Gateway_Critical_Issues" />
+    <sequenceFlow id="Flow_21" sourceRef="Gateway_Critical_Issues" targetRef="Task_Final_Review" />
+    <sequenceFlow id="Flow_22" sourceRef="Gateway_Critical_Issues" targetRef="Task_Develop_Hotfix" />
+    <sequenceFlow id="Flow_23" sourceRef="Task_Develop_Hotfix" targetRef="Task_Maintenance" />
+    
+    <task id="Task_Final_Review" name="Final Review and Closure">
+      <incoming>Flow_21</incoming>
+      <outgoing>Flow_24</outgoing>
+    </task>
+    <task id="Task_Project_Closure_Report" name="Project Closure Report">
+      <incoming>Flow_24</incoming>
+    </task>
+    <sequenceFlow id="Flow_24" sourceRef="Task_Final_Review" targetRef="Task_Project_Closure_Report" />
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Software_Development_Lifecycle_Process">
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Requirements_Analysis" bpmnElement="Task_Requirements_Analysis">
+        <dc:Bounds x="236" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Gateway_Requirements_Clarification" bpmnElement="Gateway_Requirements_Clarification">
+        <dc:Bounds x="356" y="102" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Gather_User_Stories" bpmnElement="Task_Gather_User_Stories">
+        <dc:Bounds x="456" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_System_Design" bpmnElement="Task_System_Design">
+        <dc:Bounds x="356" y="202" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Gateway_Design_Approval" bpmnElement="Gateway_Design_Approval">
+        <dc:Bounds x="476" y="224" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Design_Review" bpmnElement="Task_Design_Review">
+        <dc:Bounds x="576" y="202" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Implementation" bpmnElement="Task_Implementation">
+        <dc:Bounds x="476" y="324" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Gateway_Coding_Delay" bpmnElement="Gateway_Coding_Delay">
+        <dc:Bounds x="596" y="346" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Manage_Delay" bpmnElement="Task_Manage_Delay">
+        <dc:Bounds x="696" y="324" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Testing" bpmnElement="Task_Testing">
+        <dc:Bounds x="596" y="446" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Gateway_Defects_Found" bpmnElement="Gateway_Defects_Found">
+        <dc:Bounds x="716" y="468" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Report_Defects" bpmnElement="Task_Report_Defects">
+        <dc:Bounds x="816" y="446" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Deployment" bpmnElement="Task_Deployment">
+        <dc:Bounds x="716" y="568" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Deployment_Checklist" bpmnElement="Task_Deployment_Checklist">
+        <dc:Bounds x="836" y="568" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Maintenance" bpmnElement="Task_Maintenance">
+        <dc:Bounds x="956" y="568" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Gateway_Critical_Issues" bpmnElement="Gateway_Critical_Issues">
+        <dc:Bounds x="1076" y="590" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Develop_Hotfix" bpmnElement="Task_Develop_Hotfix">
+        <dc:Bounds x="1176" y="568" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Final_Review" bpmnElement="Task_Final_Review">
+        <dc:Bounds x="1076" y="690" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_Project_Closure_Report" bpmnElement="Task_Project_Closure_Report">
+        <dc:Bounds x="1196" y="690" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_1">
+        <di:waypoint x="209" y="120" />
+        <di:waypoint x="236" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_2" bpmnElement="Flow_2">
+        <di:waypoint x="336" y="120" />
+        <di:waypoint x="356" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_3" bpmnElement="Flow_3">
+        <di:waypoint x="406" y="127" />
+        <di:waypoint x="406" y="242" />
+        <di:waypoint x="356" y="242" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_4" bpmnElement="Flow_4">
+        <di:waypoint x="406" y="127" />
+        <di:waypoint x="456" y="127" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_5" bpmnElement="Flow_5">
+        <di:waypoint x="556" y="127" />
+        <di:waypoint x="556" y="120" />
+        <di:waypoint x="336" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_6" bpmnElement="Flow_6">
+        <di:waypoint x="456" y="242" />
+        <di:waypoint x="476" y="242" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_7" bpmnElement="Flow_7">
+        <di:waypoint x="526" y="249" />
+        <di:waypoint x="526" y="364" />
+        <di:waypoint x="476" y="364" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_8" bpmnElement="Flow_8">
+        <di:waypoint x="526" y="249" />
+        <di:waypoint x="576" y="249" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_9" bpmnElement="Flow_9">
+        <di:waypoint x="676" y="249" />
+        <di:waypoint x="676" y="242" />
+        <di:waypoint x="456" y="242" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_10" bpmnElement="Flow_10">
+        <di:waypoint x="576" y="364" />
+        <di:waypoint x="596" y="364" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_11" bpmnElement="Flow_11">
+        <di:waypoint x="646" y="371" />
+        <di:waypoint x="646" y="486" />
+        <di:waypoint x="596" y="486" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_12" bpmnElement="Flow_12">
+        <di:waypoint x="646" y="371" />
+        <di:waypoint x="696" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_13" bpmnElement="Flow_13">
+        <di:waypoint x="796" y="371" />
+        <di:waypoint x="796" y="364" />
+        <di:waypoint x="576" y="364" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_14" bpmnElement="Flow_14">
+        <di:waypoint x="696" y="486" />
+        <di:waypoint x="716" y="486" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_15" bpmnElement="Flow_15">
+        <di:waypoint x="766" y="493" />
+        <di:waypoint x="766" y="608" />
+        <di:waypoint x="716" y="608" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_16" bpmnElement="Flow_16">
+        <di:waypoint x="766" y="493" />
+        <di:waypoint x="816" y="493" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_17" bpmnElement="Flow_17">
+        <di:waypoint x="916" y="493" />
+        <di:waypoint x="916" y="486" />
+        <di:waypoint x="576" y="486" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_18" bpmnElement="Flow_18">
+        <di:waypoint x="816" y="608" />
+        <di:waypoint x="836" y="608" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_19" bpmnElement="Flow_19">
+        <di:waypoint x="936" y="608" />
+        <di:waypoint x="956" y="608" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_20" bpmnElement="Flow_20">
+        <di:waypoint x="1056" y="608" />
+        <di:waypoint x="1076" y="608" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_21" bpmnElement="Flow_21">
+        <di:waypoint x="1126" y="615" />
+        <di:waypoint x="1126" y="730" />
+        <di:waypoint x="1076" y="730" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_22" bpmnElement="Flow_22">
+        <di:waypoint x="1126" y="615" />
+        <di:waypoint x="1176" y="615" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_23" bpmnElement="Flow_23">
+        <di:waypoint x="1276" y="615" />
+        <di:waypoint x="1276" y="608" />
+        <di:waypoint x="1056" y="608" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Flow_24" bpmnElement="Flow_24">
+        <di:waypoint x="1176" y="730" />
+        <di:waypoint x="1196" y="730" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

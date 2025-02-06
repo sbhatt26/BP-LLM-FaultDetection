@@ -1,0 +1,190 @@
+{
+    "SoftwareDevelopmentLifecycle.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_1",
+            "name": "Start"
+        },
+        {
+            "type": "Task",
+            "id": "RequirementsAnalysis",
+            "name": "Requirements Analysis"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_1",
+            "name": "Requirements Clear?"
+        },
+        {
+            "type": "Task",
+            "id": "ClarifyRequirements",
+            "name": "Clarify Requirements"
+        },
+        {
+            "type": "Task",
+            "id": "SystemDesign",
+            "name": "System Design"
+        },
+        {
+            "type": "User Task",
+            "id": "Approval",
+            "name": "Approval from Technical Lead"
+        },
+        {
+            "type": "Task",
+            "id": "Implementation",
+            "name": "Implementation"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_2",
+            "name": "Task Delayed?"
+        },
+        {
+            "type": "Task",
+            "id": "ManageDelay",
+            "name": "Manage Delay"
+        },
+        {
+            "type": "Task",
+            "id": "Testing",
+            "name": "Testing"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_3",
+            "name": "Defects Found?"
+        },
+        {
+            "type": "Task",
+            "id": "FixDefects",
+            "name": "Fix Defects"
+        },
+        {
+            "type": "Task",
+            "id": "Deployment",
+            "name": "Deployment"
+        },
+        {
+            "type": "Task",
+            "id": "Maintenance",
+            "name": "Maintenance"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_4",
+            "name": "Critical Issues?"
+        },
+        {
+            "type": "Task",
+            "id": "DevelopHotfix",
+            "name": "Develop Hotfix"
+        },
+        {
+            "type": "Task",
+            "id": "FinalReview",
+            "name": "Final Review and Closure"
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_1",
+            "name": "End"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_1",
+            "sourceRef": "StartEvent_1",
+            "targetRef": "RequirementsAnalysis"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_2",
+            "sourceRef": "RequirementsAnalysis",
+            "targetRef": "Gateway_1"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_3",
+            "sourceRef": "Gateway_1",
+            "targetRef": "SystemDesign"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_5",
+            "sourceRef": "ClarifyRequirements",
+            "targetRef": "ManageDelay"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_6",
+            "sourceRef": "SystemDesign",
+            "targetRef": "Approval"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_7",
+            "sourceRef": "Approval",
+            "targetRef": "Implementation"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_8",
+            "sourceRef": "Implementation",
+            "targetRef": "Gateway_2"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_10",
+            "sourceRef": "Gateway_2",
+            "targetRef": "ManageDelay"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_11",
+            "sourceRef": "ManageDelay",
+            "targetRef": "Implementation"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_12",
+            "sourceRef": "Testing",
+            "targetRef": "Gateway_3"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_14",
+            "sourceRef": "Gateway_3",
+            "targetRef": "FixDefects"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_15",
+            "sourceRef": "FixDefects",
+            "targetRef": "Testing"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_16",
+            "sourceRef": "Deployment",
+            "targetRef": "Maintenance"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_17",
+            "sourceRef": "Maintenance",
+            "targetRef": "Gateway_4"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_18",
+            "sourceRef": "Gateway_4",
+            "targetRef": "FinalReview"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_19",
+            "sourceRef": "Gateway_4",
+            "targetRef": "DevelopHotfix"
+        }
+    ]
+}
