@@ -22,6 +22,16 @@ This repository provides an automated framework for analyzing and improving busi
 
 ---
 
+## Project Poster
+
+A visual summary of this project is available in the **project poster**:
+
+![Project Poster](FaultDetectionInBusinessProcessLogicSystemsUsingLLMs_Poster.pdf)
+
+For a detailed explanation, refer to the documentation and source code in this repository.
+
+---
+
 ## Project Structure
 
 ```
@@ -35,6 +45,7 @@ This repository provides an automated framework for analyzing and improving busi
 │   │   ├── BP_LLM_FaultDetection.ipynb           # Fault detection notebook
 │   ├── Specification Generation/
 │   │   ├── BP_LLM_SpecGeneration.ipynb           # Specification generation notebook
+├── FaultDetectionInBusinessProcessLogicSystemsUsingLLMs_Poster.pdf # Project poster
 ├── README.md                                      # Project documentation
 ├── requirements.txt                               # Python dependencies
 ```
