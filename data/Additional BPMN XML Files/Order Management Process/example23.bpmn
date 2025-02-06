@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+             id="Definitions_1"
+             targetNamespace="http://bpmn.org/schema/bpmn">
+    <process id="OrderManagementProcess" isExecutable="true">
+        <startEvent id="StartEvent_1" name="Order Placement">
+            <outgoing>Flow_1</outgoing>
+        </startEvent>
+        
+        <task id="Task_OnlineOrder" name="Online Order">
+            <incoming>Flow_1</incoming>
+            <outgoing>Flow_2</outgoing>
+        </task>
+        
+        <task id="Task_InStoreOrder" name="In-Store Order">
+            <incoming>Flow_1</incoming>
+            <outgoing>Flow_3</outgoing>
+        </task>
+        
+        <parallelGateway id="Gateway_OrderType" name="Order Type">
+            <incoming>Flow_1</incoming>
+            <outgoing>Flow_2</outgoing>
+            <outgoing>Flow_3</outgoing>
+        </parallelGateway>
+        
+        <task id="Task_CheckAvailability_Online" name="Check Availability (Online)">
+            <incoming>Flow_2</incoming>
+            <outgoing>Flow_4</outgoing>
+        </task>
+        
+        <task id="Task_CheckAvailability_InStore" name="Check Availability (In-Store)">
+            <incoming>Flow_3</incoming>
+            <outgoing>Flow_5</outgoing>
+        </task>
+        
+        <exclusiveGateway id="Gateway_StockCheck_Online" name="Stock Check (Online)">
+            <incoming>Flow_4</incoming>
+            <outgoing>Flow_6</outgoing>
+            <outgoing>Flow_7</outgoing>
+        </exclusiveGateway>
+        
+        <exclusiveGateway id="Gateway_StockCheck_InStore" name="Stock Check (In-Store)">
+            <incoming>Flow_5</incoming>
+            <outgoing>Flow_8</outgoing>
+            <outgoing>Flow_9</outgoing>
+        </exclusiveGateway>
+        
+        <task id="Task_ConfirmAvailability_Online" name="Confirm Availability (Online)">
+            <incoming>Flow_6</incoming>
+            <outgoing>Flow_10</outgoing>
+        </task>
+        
+        <task id="Task_ConfirmAvailability_InStore" name="Confirm Availability (In-Store)">
+            <incoming>Flow_8</incoming>
+            <outgoing>Flow_11</outgoing>
+        </task>
+        
+        <task id="Task_GenerateRestockingRequest" name="Generate Restocking Request">
+            <incoming>Flow_7</incoming>
+            <incoming>Flow_9</incoming>
+            <outgoing>Flow_12</outgoing>
+        </task>
+        
+        <exclusiveGateway id="Gateway_StockDelay" name="Stock Delay">
+            <incoming>Flow_12</incoming>
+            <outgoing>Flow_13</outgoing>
+            <outgoing>Flow_14</outgoing>
+        </exclusiveGateway>
+        
+        <task id="Task_NotifyDelay" name="Notify Delay">
+            <incoming>Flow_13</incoming>
+            <outgoing>Flow_10</outgoing>
+            <outgoing>Flow_11</outgoing>
+        </task>
+        
+        <task id="Task_OptionToCancelOrWait" name="Option to Cancel or Wait">
+            <incoming>Flow_14</incoming>
+            <outgoing>Flow_15</outgoing>
+        </task>
+        
+        <task id="Task_ProcessPayment_Online" name="Process Payment (Online)">
+            <incoming>Flow_10</incoming>
+            <outgoing>Flow_16</outgoing>
+        </task>
+        
+        <task id="Task_ProcessPayment_InStore" name="Process Payment (In-Store)">
+            <incoming>Flow_11</incoming>
+            <outgoing>Flow_17</outgoing>
+        </task>
+        
+        <parallelGateway id="Gateway_Payment" name="Payment">
+            <incoming>Flow_15</incoming>
+            <outgoing>Flow_16</outgoing>
+            <outgoing>Flow_17</outgoing>
+        </parallelGateway>
+        
+        <task id="Task_OrderFulfillment_Online" name="Order Fulfillment (Online)">
+            <incoming>Flow_16</incoming>
+            <outgoing>Flow_18</outgoing>
+        </task>
+        
+        <task id="Task_OrderFulfillment_InStore" name="Order Fulfillment (In-Store)">
+            <incoming>Flow_17</incoming>
+            <outgoing>Flow_19</outgoing>
+        </task>
+        
+        <task id="Task_Shipping" name="Shipping">
+            <incoming>Flow_18</incoming>
+            <outgoing>Flow_20</outgoing>
+        </task>
+        
+        <exclusiveGateway id="Gateway_ShippingIssues" name="Shipping Issues">
+            <incoming>Flow_20</incoming>
+            <outgoing>Flow_21</outgoing>
+            <outgoing>Flow_22</outgoing>
+        </exclusiveGateway>
+        
+        <task id="Task_NotifyCustomerService" name="Notify Customer Service">
+            <incoming>Flow_21</incoming>
+            <outgoing>Flow_23</outgoing>
+        </task>
+        
+        <task id="Task_ResolveShippingIssue" name="Resolve Shipping Issue">
+            <incoming>Flow_23</incoming>
+            <outgoing>Flow_24</outgoing>
+        </task>
+        
+        <task id="Task_OrderClosure" name="Order Closure">
+            <incoming>Flow_22</incoming>
+            <incoming>Flow_24</incoming>
+            <outgoing>Flow_25</outgoing>
+        </task>
+        
+        <endEvent id="EndEvent_1" name="End">
+            <incoming>Flow_25</incoming>
+        </endEvent>
+        
+        <sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Gateway_OrderType"/>
+        <sequenceFlow id="Flow_2" sourceRef="Gateway_OrderType" targetRef="Task_OnlineOrder"/>
+        <sequenceFlow id="Flow_3" sourceRef="Gateway_OrderType" targetRef="Task_InStoreOrder"/>
+        <sequenceFlow id="Flow_4" sourceRef="Task_OnlineOrder" targetRef="Task_CheckAvailability_Online"/>
+        <sequenceFlow id="Flow_5" sourceRef="Task_InStoreOrder" targetRef="Task_CheckAvailability_InStore"/>
+        <sequenceFlow id="Flow_6" sourceRef="Task_CheckAvailability_Online" targetRef="Gateway_StockCheck_Online"/>
+        <sequenceFlow id="Flow_7" sourceRef="Task_CheckAvailability_InStore" targetRef="Gateway_StockCheck_InStore"/>
+        <sequenceFlow id="Flow_8" sourceRef="Gateway_StockCheck_Online" targetRef="Task_ConfirmAvailability_Online"/>
+        <sequenceFlow id="Flow_9" sourceRef="Gateway_StockCheck_InStore" targetRef="Task_ConfirmAvailability_InStore"/>
+        <sequenceFlow id="Flow_10" sourceRef="Gateway_StockCheck_Online" targetRef="Task_GenerateRestockingRequest"/>
+        <sequenceFlow id="Flow_11" sourceRef="Gateway_StockCheck_InStore" targetRef="Task_GenerateRestockingRequest"/>
+        <sequenceFlow id="Flow_12" sourceRef="Task_GenerateRestockingRequest" targetRef="Gateway_StockDelay"/>
+        <sequenceFlow id="Flow_13" sourceRef="Gateway_StockDelay" targetRef="Task_NotifyDelay"/>
+        <sequenceFlow id="Flow_14" sourceRef="Gateway_StockDelay" targetRef="Task_OptionToCancelOrWait"/>
+        <sequenceFlow id="Flow_15" sourceRef="Task_OptionToCancelOrWait" targetRef="Gateway_Payment"/>
+        <sequenceFlow id="Flow_16" sourceRef="Gateway_Payment" targetRef="Task_ProcessPayment_Online"/>
+        <sequenceFlow id="Flow_17" sourceRef="Gateway_Payment" targetRef="Task_ProcessPayment_InStore"/>
+        <sequenceFlow id="Flow_18" sourceRef="Task_ProcessPayment_Online" targetRef="Task_OrderFulfillment_Online"/>
+        <sequenceFlow id="Flow_19" sourceRef="Task_ProcessPayment_InStore" targetRef="Task_OrderFulfillment_InStore"/>
+        <sequenceFlow id="Flow_20" sourceRef="Task_OrderFulfillment_Online" targetRef="Task_Shipping"/>
+        <sequenceFlow id="Flow_21" sourceRef="Task_Shipping" targetRef="Gateway_ShippingIssues"/>
+        <sequenceFlow id="Flow_22" sourceRef="Gateway_ShippingIssues" targetRef="Task_NotifyCustomerService"/>
+        <sequenceFlow id="Flow_23" sourceRef="Gateway_ShippingIssues" targetRef="Task_NotifyCustomerService"/>
+        <sequenceFlow id="Flow_24" sourceRef="Task_NotifyCustomerService" targetRef="Task_ResolveShippingIssue"/>
+        <sequenceFlow id="Flow_25" sourceRef="Task_ResolveShippingIssue" targetRef="Task_OrderClosure"/>
+        <sequenceFlow id="Flow_26" sourceRef="Task_OrderClosure" targetRef="EndEvent_1"/>
+    </process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+        <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="OrderManagementProcess">
+            <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="StartEvent_1">
+                <dc:Bounds x="173" y="102" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_OrderType" bpmnElement="Gateway_OrderType">
+                <dc:Bounds x="236" y="102" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_OnlineOrder" bpmnElement="Task_OnlineOrder">
+                <dc:Bounds x="306" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_InStoreOrder" bpmnElement="Task_InStoreOrder">
+                <dc:Bounds x="306" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_CheckAvailability_Online" bpmnElement="Task_CheckAvailability_Online">
+                <dc:Bounds x="426" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_CheckAvailability_InStore" bpmnElement="Task_CheckAvailability_InStore">
+                <dc:Bounds x="426" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_StockCheck_Online" bpmnElement="Gateway_StockCheck_Online">
+                <dc:Bounds x="546" y="102" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_StockCheck_InStore" bpmnElement="Gateway_StockCheck_InStore">
+                <dc:Bounds x="546" y="202" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ConfirmAvailability_Online" bpmnElement="Task_ConfirmAvailability_Online">
+                <dc:Bounds x="616" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ConfirmAvailability_InStore" bpmnElement="Task_ConfirmAvailability_InStore">
+                <dc:Bounds x="616" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_GenerateRestockingRequest" bpmnElement="Task_GenerateRestockingRequest">
+                <dc:Bounds x="546" y="302" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_StockDelay" bpmnElement="Gateway_StockDelay">
+                <dc:Bounds x="676" y="322" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_NotifyDelay" bpmnElement="Task_NotifyDelay">
+                <dc:Bounds x="746" y="302" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_OptionToCancelOrWait" bpmnElement="Task_OptionToCancelOrWait">
+                <dc:Bounds x="676" y="402" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_Payment" bpmnElement="Gateway_Payment">
+                <dc:Bounds x="806" y="322" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ProcessPayment_Online" bpmnElement="Task_ProcessPayment_Online">
+                <dc:Bounds x="876" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ProcessPayment_InStore" bpmnElement="Task_ProcessPayment_InStore">
+                <dc:Bounds x="876" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_OrderFulfillment_Online" bpmnElement="Task_OrderFulfillment_Online">
+                <dc:Bounds x="996" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_OrderFulfillment_InStore" bpmnElement="Task_OrderFulfillment_InStore">
+                <dc:Bounds x="996" y="180" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_Shipping" bpmnElement="Task_Shipping">
+                <dc:Bounds x="1116" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Gateway_ShippingIssues" bpmnElement="Gateway_ShippingIssues">
+                <dc:Bounds x="1236" y="102" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_NotifyCustomerService" bpmnElement="Task_NotifyCustomerService">
+                <dc:Bounds x="1316" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_ResolveShippingIssue" bpmnElement="Task_ResolveShippingIssue">
+                <dc:Bounds x="1436" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_Task_OrderClosure" bpmnElement="Task_OrderClosure">
+                <dc:Bounds x="1556" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_EndEvent_1" bpmnElement="EndEvent_1">
+                <dc:Bounds x="1676" y="102" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_1" bpmnElement="Flow_1">
+                <di:waypoint x="209" y="120"/>
+                <di:waypoint x="236" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_2" bpmnElement="Flow_2">
+                <di:waypoint x="286" y="120"/>
+                <di:waypoint x="306" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_3" bpmnElement="Flow_3">
+                <di:waypoint x="286" y="120"/>
+                <di:waypoint x="306" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_4" bpmnElement="Flow_4">
+                <di:waypoint x="406" y="120"/>
+                <di:waypoint x="426" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_5" bpmnElement="Flow_5">
+                <di:waypoint x="406" y="220"/>
+                <di:waypoint x="426" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_6" bpmnElement="Flow_6">
+                <di:waypoint x="526" y="120"/>
+                <di:waypoint x="546" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_7" bpmnElement="Flow_7">
+                <di:waypoint x="526" y="220"/>
+                <di:waypoint x="546" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_8" bpmnElement="Flow_8">
+                <di:waypoint x="596" y="120"/>
+                <di:waypoint x="616" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_9" bpmnElement="Flow_9">
+                <di:waypoint x="596" y="220"/>
+                <di:waypoint x="616" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_10" bpmnElement="Flow_10">
+                <di:waypoint x="716" y="120"/>
+                <di:waypoint x="746" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_11" bpmnElement="Flow_11">
+                <di:waypoint x="716" y="220"/>
+                <di:waypoint x="746" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_12" bpmnElement="Flow_12">
+                <di:waypoint x="596" y="342"/>
+                <di:waypoint x="676" y="342"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_13" bpmnElement="Flow_13">
+                <di:waypoint x="726" y="342"/>
+                <di:waypoint x="746" y="342"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_14" bpmnElement="Flow_14">
+                <di:waypoint x="726" y="372"/>
+                <di:waypoint x="676" y="442"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_15" bpmnElement="Flow_15">
+                <di:waypoint x="776" y="442"/>
+                <di:waypoint x="806" y="342"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_16" bpmnElement="Flow_16">
+                <di:waypoint x="856" y="342"/>
+                <di:waypoint x="876" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_17" bpmnElement="Flow_17">
+                <di:waypoint x="856" y="342"/>
+                <di:waypoint x="876" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_18" bpmnElement="Flow_18">
+                <di:waypoint x="976" y="120"/>
+                <di:waypoint x="996" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_19" bpmnElement="Flow_19">
+                <di:waypoint x="976" y="220"/>
+                <di:waypoint x="996" y="220"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_20" bpmnElement="Flow_20">
+                <di:waypoint x="1096" y="120"/>
+                <di:waypoint x="1116" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_21" bpmnElement="Flow_21">
+                <di:waypoint x="1216" y="120"/>
+                <di:waypoint x="1236" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_22" bpmnElement="Flow_22">
+                <di:waypoint x="1286" y="120"/>
+                <di:waypoint x="1316" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_23" bpmnElement="Flow_23">
+                <di:waypoint x="1416" y="120"/>
+                <di:waypoint x="1436" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_24" bpmnElement="Flow_24">
+                <di:waypoint x="1536" y="120"/>
+                <di:waypoint x="1556" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_25" bpmnElement="Flow_25">
+                <di:waypoint x="1656" y="120"/>
+                <di:waypoint x="1676" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_26" bpmnElement="Flow_26">
+                <di:waypoint x="1776" y="120"/>
+                <di:waypoint x="1796" y="120"/>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</definitions>

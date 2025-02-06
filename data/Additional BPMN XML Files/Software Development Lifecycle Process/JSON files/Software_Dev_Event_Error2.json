@@ -1,0 +1,286 @@
+{
+    "Software_Development_Lifecycle_Process.bpmn": [
+        {
+            "type": "Task",
+            "id": "Requirements_Analysis",
+            "name": "Requirements Analysis"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Requirements_Clarification",
+            "name": "Requirements Clarification"
+        },
+        {
+            "type": "Task",
+            "id": "Gather_User_Stories",
+            "name": "Gather User Stories"
+        },
+        {
+            "type": "Task",
+            "id": "Clarify_Requirements",
+            "name": "Clarify Requirements"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_1",
+            "sourceRef": "Requirements_Analysis",
+            "targetRef": "Requirements_Clarification"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_2",
+            "sourceRef": "Requirements_Clarification",
+            "targetRef": "Gather_User_Stories"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_3",
+            "sourceRef": "Requirements_Clarification",
+            "targetRef": "Clarify_Requirements"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_4",
+            "sourceRef": "Gather_User_Stories",
+            "targetRef": "System_Design"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_5",
+            "sourceRef": "Clarify_Requirements",
+            "targetRef": "Requirements_Clarification"
+        },
+        {
+            "type": "Task",
+            "id": "System_Design",
+            "name": "System Design"
+        },
+        {
+            "type": "Task",
+            "id": "Develop_Architecture",
+            "name": "Develop Architecture"
+        },
+        {
+            "type": "Task",
+            "id": "Approve_Design",
+            "name": "Approve Design"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_6",
+            "sourceRef": "System_Design",
+            "targetRef": "Develop_Architecture"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_7",
+            "sourceRef": "Develop_Architecture",
+            "targetRef": "Approve_Design"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_8",
+            "sourceRef": "Approve_Design",
+            "targetRef": "Implementation"
+        },
+        {
+            "type": "Task",
+            "id": "Implementation",
+            "name": "Implementation"
+        },
+        {
+            "type": "Task",
+            "id": "Write_Code",
+            "name": "Write Code"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Coding_Delay",
+            "name": "Coding Delay"
+        },
+        {
+            "type": "Task",
+            "id": "Manage_Delay",
+            "name": "Manage Delay"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_9",
+            "sourceRef": "Implementation",
+            "targetRef": "Write_Code"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_10",
+            "sourceRef": "Write_Code",
+            "targetRef": "Coding_Delay"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_11",
+            "sourceRef": "Coding_Delay",
+            "targetRef": "Manage_Delay"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_12",
+            "sourceRef": "Coding_Delay",
+            "targetRef": "Testing"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_13",
+            "sourceRef": "Manage_Delay",
+            "targetRef": "Coding_Delay"
+        },
+        {
+            "type": "Task",
+            "id": "Testing",
+            "name": "Testing"
+        },
+        {
+            "type": "Task",
+            "id": "Perform_Tests",
+            "name": "Perform Tests"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Defect_Found",
+            "name": "Defect Found"
+        },
+        {
+            "type": "Task",
+            "id": "Fix_Defects",
+            "name": "Fix Defects"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_14",
+            "sourceRef": "Testing",
+            "targetRef": "Perform_Tests"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_15",
+            "sourceRef": "Perform_Tests",
+            "targetRef": "Defect_Found"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_16",
+            "sourceRef": "Defect_Found",
+            "targetRef": "Fix_Defects"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_17",
+            "sourceRef": "Defect_Found",
+            "targetRef": "Deployment"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_18",
+            "sourceRef": "Fix_Defects",
+            "targetRef": "Defect_Found"
+        },
+        {
+            "type": "Task",
+            "id": "Deployment",
+            "name": "Deployment"
+        },
+        {
+            "type": "Task",
+            "id": "Deploy_Software",
+            "name": "Deploy Software"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_19",
+            "sourceRef": "Deployment",
+            "targetRef": "Deploy_Software"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_20",
+            "sourceRef": "Deploy_Software",
+            "targetRef": "Maintenance"
+        },
+        {
+            "type": "Task",
+            "id": "Maintenance",
+            "name": "Maintenance"
+        },
+        {
+            "type": "Task",
+            "id": "Monitor_Software",
+            "name": "Monitor Software"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Critical_Issue_Found",
+            "name": "Critical Issue Found"
+        },
+        {
+            "type": "Task",
+            "id": "Develop_Hotfix",
+            "name": "Develop Hotfix"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_21",
+            "sourceRef": "Maintenance",
+            "targetRef": "Monitor_Software"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_22",
+            "sourceRef": "Monitor_Software",
+            "targetRef": "Critical_Issue_Found"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_23",
+            "sourceRef": "Critical_Issue_Found",
+            "targetRef": "Develop_Hotfix"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_24",
+            "sourceRef": "Critical_Issue_Found",
+            "targetRef": "Final_Review_and_Closure"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_25",
+            "sourceRef": "Develop_Hotfix",
+            "targetRef": "Critical_Issue_Found"
+        },
+        {
+            "type": "Task",
+            "id": "Final_Review_and_Closure",
+            "name": "Final Review and Closure"
+        },
+        {
+            "type": "Task",
+            "id": "Conduct_Final_Review",
+            "name": "Conduct Final Review"
+        },
+        {
+            "type": "Task",
+            "id": "Generate_Closure_Report",
+            "name": "Generate Closure Report"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_26",
+            "sourceRef": "Final_Review_and_Closure",
+            "targetRef": "Conduct_Final_Review"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_27",
+            "sourceRef": "Conduct_Final_Review",
+            "targetRef": "Generate_Closure_Report"
+        }
+    ]
+}
