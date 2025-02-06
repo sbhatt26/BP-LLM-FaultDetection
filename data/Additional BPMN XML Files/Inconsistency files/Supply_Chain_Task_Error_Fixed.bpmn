@@ -1,0 +1,36 @@
+<ns0:definitions xmlns:ns0="http://www.omg.org/spec/BPMN/20100524/MODEL" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <ns0:process id="Process_1" isExecutable="false">
+    <ns0:startEvent id="StartEvent_1" name="Inventory Monitoring">
+      <ns0:outgoing>SequenceFlow_1</ns0:outgoing>
+    </ns0:startEvent>
+    <ns0:task id="Task_1" name="Demand Forecasting">
+      <ns0:incoming>SequenceFlow_1</ns0:incoming>
+      <ns0:outgoing>SequenceFlow_2</ns0:outgoing>
+    </ns0:task>
+    <ns0:sequenceFlow id="SequenceFlow_1" sourceRef="StartEvent_1" targetRef="Task_1" name="Sequence Flow SequenceFlow_1" />
+    <ns0:exclusiveGateway id="ExclusiveGateway_1" name="Demand Increase?">
+      <ns0:incoming>SequenceFlow_2</ns0:incoming>
+      <ns0:outgoing>SequenceFlow_3</ns0:outgoing>
+    </ns0:exclusiveGateway>
+    <ns0:sequenceFlow id="SequenceFlow_2" sourceRef="Task_1" targetRef="ExclusiveGateway_1" name="Sequence Flow SequenceFlow_2" />
+    <ns0:task id="Task_3" name="Purchase Order Creation">
+      <ns0:incoming>SequenceFlow_3</ns0:incoming>
+      <ns0:outgoing>SequenceFlow_4</ns0:outgoing>
+    </ns0:task>
+    <ns0:sequenceFlow id="SequenceFlow_3" sourceRef="ExclusiveGateway_1" targetRef="Task_3" name="Sequence Flow SequenceFlow_3" />
+    <ns0:task id="Task_4" name="Shipping and Logistics">
+      <ns0:incoming>SequenceFlow_4</ns0:incoming>
+      <ns0:outgoing>SequenceFlow_5</ns0:outgoing>
+    </ns0:task>
+    <ns0:sequenceFlow id="SequenceFlow_4" sourceRef="Task_3" targetRef="Task_4" name="Sequence Flow SequenceFlow_4" />
+    <ns0:sequenceFlow id="SequenceFlow_5" sourceRef="Task_4" targetRef="Task_5" name="Sequence Flow SequenceFlow_5" />
+    <ns0:endEvent id="EndEvent_1" name="Inventory Update and Completion">
+      <ns0:incoming>SequenceFlow_6</ns0:incoming>
+    </ns0:endEvent>
+    <ns0:sequenceFlow id="SequenceFlow_6" sourceRef="Task_5" targetRef="EndEvent_1" name="Sequence Flow SequenceFlow_6" />
+    <ns0:task id="Task_5" name="Receiving and Quality Check">
+      <ns0:incoming>SequenceFlow_5</ns0:incoming>
+      <ns0:outgoing>SequenceFlow_6</ns0:outgoing>
+    </ns0:task>
+  </ns0:process>
+</ns0:definitions>

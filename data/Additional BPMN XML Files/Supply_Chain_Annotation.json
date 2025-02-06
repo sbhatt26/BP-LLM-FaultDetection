@@ -1,0 +1,354 @@
+{
+    "Supply_Chain_Logical_Error.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_1",
+            "name": "Inventory Monitoring"
+        },
+        {
+            "type": "Condition",
+            "description": "Product Availability",
+            "associatedWith": "StartEvent_1"
+        },
+        {
+            "type": "Process",
+            "description": "Restocking Request",
+            "associatedWith": "StartEvent_1"
+        },
+        {
+            "type": "Task",
+            "id": "Task_1",
+            "name": "Demand Forecasting"
+        },
+        {
+            "type": "Process",
+            "description": "Sales Trends",
+            "associatedWith": "Task_1"
+        },
+        {
+            "type": "Condition",
+            "description": "Demand Adjustment",
+            "associatedWith": "Task_1"
+        },
+        {
+            "type": "Process",
+            "description": "Manual Intervention",
+            "associatedWith": "Task_1"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1",
+            "sourceRef": "StartEvent_1",
+            "targetRef": "Task_1"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "ExclusiveGateway_1",
+            "name": "Demand Increase?"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_2",
+            "sourceRef": "Task_1",
+            "targetRef": "ExclusiveGateway_1"
+        },
+        {
+            "type": "Task",
+            "id": "Task_2",
+            "name": "Supplier Selection"
+        },
+        {
+            "type": "Condition",
+            "description": "Supplier Availability",
+            "associatedWith": "Task_2"
+        },
+        {
+            "type": "Condition",
+            "description": "Alternate Supplier",
+            "associatedWith": "Task_2"
+        },
+        {
+            "type": "Process",
+            "description": "Procurement Team Review",
+            "associatedWith": "Task_2"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_3",
+            "sourceRef": "ExclusiveGateway_1",
+            "targetRef": "Task_2"
+        },
+        {
+            "type": "Task",
+            "id": "Task_3",
+            "name": "Purchase Order Creation"
+        },
+        {
+            "type": "Process",
+            "description": "Purchase Order Details",
+            "associatedWith": "Task_3"
+        },
+        {
+            "type": "System",
+            "description": "Procurement System",
+            "associatedWith": "Task_3"
+        },
+        {
+            "type": "Process",
+            "description": "Manual Correction",
+            "associatedWith": "Task_3"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_5",
+            "sourceRef": "Task_2",
+            "targetRef": "Task_3"
+        },
+        {
+            "type": "Task",
+            "id": "Task_4",
+            "name": "Shipping and Logistics"
+        },
+        {
+            "type": "Actor",
+            "description": "Logistics Partners",
+            "associatedWith": "Task_4"
+        },
+        {
+            "type": "Process",
+            "description": "Shipment Tracking",
+            "associatedWith": "Task_4"
+        },
+        {
+            "type": "Process",
+            "description": "Delivery Adjustment",
+            "associatedWith": "Task_4"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_6",
+            "sourceRef": "Task_3",
+            "targetRef": "Task_4"
+        },
+        {
+            "type": "Task",
+            "id": "Task_5",
+            "name": "Receiving and Quality Check"
+        },
+        {
+            "type": "Process",
+            "description": "Quality Check",
+            "associatedWith": "Task_5"
+        },
+        {
+            "type": "Process",
+            "description": "Replacement or Refund Process",
+            "associatedWith": "Task_5"
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_1",
+            "name": "Inventory Update and Completion"
+        },
+        {
+            "type": "Process",
+            "description": "Inventory Update",
+            "associatedWith": "EndEvent_1"
+        },
+        {
+            "type": "Process",
+            "description": "Partial Shipment Review",
+            "associatedWith": "EndEvent_1"
+        },
+        {
+            "type": "Process",
+            "description": "Replenishment Completion",
+            "associatedWith": "EndEvent_1"
+        }
+    ],
+    "Supply_Chain_Task_Error.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_1",
+            "name": "Inventory Monitoring"
+        },
+        {
+            "type": "Condition",
+            "description": "Product Availability",
+            "associatedWith": "StartEvent_1"
+        },
+        {
+            "type": "Process",
+            "description": "Restocking Request",
+            "associatedWith": "StartEvent_1"
+        },
+        {
+            "type": "Task",
+            "id": "Task_1",
+            "name": "Demand Forecasting"
+        },
+        {
+            "type": "Process",
+            "description": "Sales Trends",
+            "associatedWith": "Task_1"
+        },
+        {
+            "type": "Condition",
+            "description": "Demand Adjustment",
+            "associatedWith": "Task_1"
+        },
+        {
+            "type": "Process",
+            "description": "Manual Intervention",
+            "associatedWith": "Task_1"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "ExclusiveGateway_1",
+            "name": "Forecast Error Detected"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_2",
+            "sourceRef": "Task_1",
+            "targetRef": "ExclusiveGateway_1"
+        },
+        {
+            "type": "Task",
+            "id": "Task_2",
+            "name": "Supplier Selection"
+        },
+        {
+            "type": "Condition",
+            "description": "Supplier Availability",
+            "associatedWith": "Task_2"
+        },
+        {
+            "type": "Condition",
+            "description": "Alternate Supplier",
+            "associatedWith": "Task_2"
+        },
+        {
+            "type": "Process",
+            "description": "Procurement Team Review",
+            "associatedWith": "Task_2"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_3",
+            "sourceRef": "ExclusiveGateway_1",
+            "targetRef": "Task_2"
+        },
+        {
+            "type": "Task",
+            "id": "Task_3",
+            "name": "Purchase Order Creation"
+        },
+        {
+            "type": "Process",
+            "description": "Purchase Order Details",
+            "associatedWith": "Task_3"
+        },
+        {
+            "type": "System",
+            "description": "Procurement System",
+            "associatedWith": "Task_3"
+        },
+        {
+            "type": "Process",
+            "description": "Manual Correction",
+            "associatedWith": "Task_3"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_4",
+            "sourceRef": "Task_2",
+            "targetRef": "Task_3"
+        }
+    ],
+    "Supply_Chain_End_Start_error.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_1",
+            "name": "Inventory Review"
+        },
+        {
+            "type": "Task",
+            "id": "Task_1",
+            "name": "Order Forecast"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "ExclusiveGateway_1",
+            "name": "Check Order Requirement"
+        },
+        {
+            "type": "Task",
+            "id": "Task_2",
+            "name": "Order Processing"
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_1",
+            "name": "Process Closed"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1",
+            "sourceRef": "StartEvent_1",
+            "targetRef": "Task_1"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_2",
+            "sourceRef": "Task_1",
+            "targetRef": "ExclusiveGateway_1"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_3",
+            "sourceRef": "ExclusiveGateway_1",
+            "targetRef": "Task_2"
+        }
+    ],
+    "Supply_Chain_Link_Error.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_1",
+            "name": "Stock Check"
+        },
+        {
+            "type": "Task",
+            "id": "Task_1",
+            "name": "Supplier Identification"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "ExclusiveGateway_1",
+            "name": "Supplier Availability Check"
+        },
+        {
+            "type": "Task",
+            "id": "Task_2",
+            "name": "PO Creation"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1",
+            "sourceRef": "StartEvent_1",
+            "targetRef": "Task_1"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_2",
+            "sourceRef": "Task_1",
+            "targetRef": "ExclusiveGateway_1"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_3",
+            "sourceRef": "ExclusiveGateway_1",
+            "targetRef": "Task_2"
+        }
+    ]
+}

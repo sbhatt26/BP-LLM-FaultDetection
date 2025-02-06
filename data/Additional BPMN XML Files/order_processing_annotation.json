@@ -1,0 +1,213 @@
+{
+    "Order_Proccessing_Task_Error.bpmn": [
+        {
+            "type": "Task",
+            "id": "Task_1",
+            "name": "Order Placement",
+            "associatedWith": [
+                {
+                    "type": "Actor",
+                    "description": "Customers",
+                    "associatedWith": "Order Placement"
+                },
+                {
+                    "type": "Condition",
+                    "description": "Product Availability",
+                    "associatedWith": "Order Placement"
+                }
+            ]
+        },
+        {
+            "type": "Task",
+            "id": "Task_2",
+            "name": "Stock Check",
+            "associatedWith": [
+                {
+                    "type": "Condition",
+                    "description": "Product Availability",
+                    "associatedWith": "Stock Check"
+                },
+                {
+                    "type": "Process",
+                    "description": "Restocking Request",
+                    "associatedWith": "Stock Check"
+                }
+            ]
+        },
+        {
+            "type": "Task",
+            "id": "Task_3",
+            "name": "Order Payment",
+            "associatedWith": [
+                {
+                    "type": "Payment Method",
+                    "description": "Credit Card",
+                    "associatedWith": "Order Payment"
+                },
+                {
+                    "type": "Payment Method",
+                    "description": "PayPal",
+                    "associatedWith": "Order Payment"
+                },
+                {
+                    "type": "Payment Method",
+                    "description": "Bank Transfer",
+                    "associatedWith": "Order Payment"
+                }
+            ]
+        }
+    ],
+    "Order_Processing_End_Start_Error.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_1",
+            "name": "Order Start",
+            "associatedWith": []
+        },
+        {
+            "type": "Task",
+            "id": "Task_3",
+            "name": "Order Payment",
+            "associatedWith": [
+                {
+                    "type": "Payment Method",
+                    "description": "Credit Card",
+                    "associatedWith": "Order Payment"
+                },
+                {
+                    "type": "Payment Method",
+                    "description": "PayPal",
+                    "associatedWith": "Order Payment"
+                },
+                {
+                    "type": "Payment Method",
+                    "description": "Bank Transfer",
+                    "associatedWith": "Order Payment"
+                }
+            ]
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_1",
+            "name": "Order Closure",
+            "associatedWith": [
+                {
+                    "type": "System",
+                    "description": "System",
+                    "associatedWith": "Order Closure"
+                },
+                {
+                    "type": "Process",
+                    "description": "Return/Refund",
+                    "associatedWith": "Order Closure"
+                }
+            ]
+        }
+    ],
+    "Order_Processing_Incorrect_Link.bpmn": [
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_1",
+            "sourceRef": "Task_1",
+            "targetRef": "Task_4",
+            "associatedWith": []
+        },
+        {
+            "type": "Task",
+            "id": "Task_4",
+            "name": "Order Fulfillment",
+            "associatedWith": [
+                {
+                    "type": "Location",
+                    "description": "Warehouse",
+                    "associatedWith": "Order Fulfillment"
+                },
+                {
+                    "type": "Actor",
+                    "description": "Logistics Team",
+                    "associatedWith": "Order Fulfillment"
+                },
+                {
+                    "type": "Process",
+                    "description": "Shipping Method",
+                    "associatedWith": "Order Fulfillment"
+                }
+            ]
+        },
+        {
+            "type": "Task",
+            "id": "Task_5",
+            "name": "Shipping",
+            "associatedWith": [
+                {
+                    "type": "Actor",
+                    "description": "Shipping Company",
+                    "associatedWith": "Shipping"
+                },
+                {
+                    "type": "Communication",
+                    "description": "Shipping Confirmation",
+                    "associatedWith": "Shipping"
+                }
+            ]
+        }
+    ],
+    "Order_Processing_Logical_Error.bpmn": [
+        {
+            "type": "Task",
+            "id": "Task_1",
+            "name": "Order Placement",
+            "associatedWith": [
+                {
+                    "type": "Actor",
+                    "description": "Customers",
+                    "associatedWith": "Order Placement"
+                },
+                {
+                    "type": "Condition",
+                    "description": "Product Availability",
+                    "associatedWith": "Order Placement"
+                }
+            ]
+        },
+        {
+            "type": "Task",
+            "id": "Task_2",
+            "name": "Order Fulfillment",
+            "associatedWith": [
+                {
+                    "type": "Location",
+                    "description": "Warehouse",
+                    "associatedWith": "Order Fulfillment"
+                },
+                {
+                    "type": "Actor",
+                    "description": "Logistics Team",
+                    "associatedWith": "Order Fulfillment"
+                },
+                {
+                    "type": "Process",
+                    "description": "Shipping Method",
+                    "associatedWith": "Order Fulfillment"
+                }
+            ]
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_1",
+            "name": "Order Closure",
+            "associatedWith": [
+                {
+                    "type": "System",
+                    "description": "System",
+                    "associatedWith": "Order Closure"
+                },
+                {
+                    "type": "Process",
+                    "description": "Return/Refund",
+                    "associatedWith": "Order Closure"
+                }
+            ]
+        }
+    ]
+}

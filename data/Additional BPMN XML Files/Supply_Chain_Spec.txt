@@ -1,0 +1,20 @@
+Supply Chain Management and Inventory Replenishment Process Specification
+
+The Supply Chain Management and Inventory Replenishment process for the large multinational retail company includes the following key steps:
+
+1. Inventory Monitoring: The system continuously monitors stock levels across multiple warehouses and retail stores. If inventory falls below the predefined threshold for any product, a replenishment order is triggered.
+
+2. Demand Forecasting: The system integrates with demand forecasting models that predict future demand based on sales trends, seasonality, and external factors (e.g., promotions, weather). If demand is expected to rise significantly, the order size is adjusted automatically to meet future demand. If the demand forecast is inaccurate, manual intervention by supply chain managers is required.
+
+3. Supplier Selection: Based on the product type, pricing, and availability, the system selects suppliers from a pre-approved list. The system checks the supplier's lead times, availability of the product, and pricing before placing an order. If a preferred supplier is unavailable, an alternate supplier is chosen. If no supplier is available, the process is flagged for manual review by the procurement team.
+
+4. Purchase Order Creation: The system generates a purchase order (PO) for the supplier, including details of the products, quantities, delivery dates, and shipping methods. The supplier is notified, and the PO is logged into the procurement system for tracking. If the PO contains errors (e.g., incorrect quantities, dates), it's flagged for correction by the procurement team.
+
+5. Shipping and Logistics: The supplier prepares the shipment, and logistics partners are notified. The system tracks the shipment in real-time, and any delays or issues (e.g., customs, transportation disruptions) trigger alerts. The warehouse or retail store receiving the shipment is notified of the expected delivery date and time. If a shipment is delayed, the system automatically adjusts the delivery window and updates the warehouse schedule.
+
+6. Receiving and Quality Check: Once the shipment arrives at the warehouse, the inventory team receives the products and checks them against the purchase order for accuracy and quality. If the shipment is incomplete or defective, the system flags it, and a replacement or refund process is triggered. If the products meet quality standards, they are added to inventory, and the system updates the stock levels.
+
+7. Inventory Update and Replenishment Completion: The system updates stock levels in real-time across all affected locations. Any remaining replenishment needs (e.g., partial shipments) are reviewed by the supply chain manager. If there are no outstanding issues, the replenishment process is marked as complete, and the system moves to monitor for the next inventory cycle.
+
+Submission 
+5 BPMN XML files (4 with errors, 1 correct)

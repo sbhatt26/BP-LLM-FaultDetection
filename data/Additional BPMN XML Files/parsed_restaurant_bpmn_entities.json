@@ -1,0 +1,555 @@
+{
+    "Resto_logic_error_1.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_1y45yut",
+            "name": "Reservation Created"
+        },
+        {
+            "type": "End Event",
+            "id": "Event_0lkfngb",
+            "name": "Process Complete"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_1998lxp",
+            "name": "Check-in at Restaurant"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_1mw4ofo",
+            "name": "Order Placement"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_0fb8k32",
+            "name": "Order Preparation"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_0n80xpz",
+            "name": "Serving the Order"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_069rxkm",
+            "name": "Payment and Billing"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_01wi6nl",
+            "name": "Feedback and Departure"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_06dboho",
+            "name": "Reservation Found?"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0h21x7r",
+            "sourceRef": "StartEvent_1y45yut",
+            "targetRef": "Activity_1998lxp"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0zjjjxk",
+            "sourceRef": "Activity_1998lxp",
+            "targetRef": "Gateway_06dboho"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_069rxq4",
+            "sourceRef": "Gateway_06dboho",
+            "targetRef": "Activity_1mw4ofo"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0irmk8j",
+            "sourceRef": "Gateway_06dboho",
+            "targetRef": "Event_0lkfngb"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0zchwar",
+            "sourceRef": "Activity_1mw4ofo",
+            "targetRef": "Activity_0fb8k32"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0qfo8j1",
+            "sourceRef": "Activity_0fb8k32",
+            "targetRef": "Activity_0n80xpz"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0ttewy3",
+            "sourceRef": "Activity_0n80xpz",
+            "targetRef": "Activity_069rxkm"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_1ovwb4d",
+            "sourceRef": "Activity_069rxkm",
+            "targetRef": "Activity_0n80xpz"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_17cqdsw",
+            "sourceRef": "Activity_01wi6nl",
+            "targetRef": "Event_0lkfngb"
+        },
+        {
+            "type": "Process",
+            "description": "Food Orders",
+            "associatedWith": "Order Placement"
+        },
+        {
+            "type": "Condition",
+            "description": "Special Requests",
+            "associatedWith": "Order Placement"
+        },
+        {
+            "type": "Process",
+            "description": "Order Process",
+            "associatedWith": "Order Preparation"
+        },
+        {
+            "type": "Communication",
+            "description": "Prepared Orders",
+            "associatedWith": "Order Preparation"
+        },
+        {
+            "type": "Object",
+            "description": "Food",
+            "associatedWith": "Serving the Order"
+        },
+        {
+            "type": "Location",
+            "description": "Table",
+            "associatedWith": "Serving the Order"
+        },
+        {
+            "type": "Object",
+            "description": "Bill",
+            "associatedWith": "Payment and Billing"
+        },
+        {
+            "type": "Payment Method",
+            "description": "Cash",
+            "associatedWith": "Payment and Billing"
+        },
+        {
+            "type": "Payment Method",
+            "description": "Card",
+            "associatedWith": "Payment and Billing"
+        },
+        {
+            "type": "Payment Method",
+            "description": "Mobile",
+            "associatedWith": "Payment and Billing"
+        }
+    ],
+    "Resto_Start_End_error_1.bpmn": [
+        {
+            "type": "End Event",
+            "id": "Event_0lkfngb",
+            "name": "Process Complete"
+        },
+        {
+            "type": "End Event",
+            "id": "Event_1tsai0j",
+            "name": ""
+        },
+        {
+            "type": "Task",
+            "id": "Activity_0vf1grf",
+            "name": "Reservation Creation"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_1998lxp",
+            "name": "Check-in at Restaurant"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_1mw4ofo",
+            "name": "Order Placement"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_0fb8k32",
+            "name": "Order Preparation"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_0n80xpz",
+            "name": "Serving the Order"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_069rxkm",
+            "name": "Payment and Billing"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_01wi6nl",
+            "name": "Feedback and Departure"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_06dboho",
+            "name": "Reservation Found?"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0f93gds",
+            "sourceRef": "Activity_0vf1grf",
+            "targetRef": "Activity_1998lxp"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0zjjjxk",
+            "sourceRef": "Activity_1998lxp",
+            "targetRef": "Gateway_06dboho"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_069rxq4",
+            "sourceRef": "Gateway_06dboho",
+            "targetRef": "Activity_1mw4ofo"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0irmk8j",
+            "sourceRef": "Gateway_06dboho",
+            "targetRef": "Event_1tsai0j"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0zchwar",
+            "sourceRef": "Activity_1mw4ofo",
+            "targetRef": "Activity_0fb8k32"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0qfo8j1",
+            "sourceRef": "Activity_0fb8k32",
+            "targetRef": "Activity_0n80xpz"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0ttewy3",
+            "sourceRef": "Activity_0n80xpz",
+            "targetRef": "Activity_069rxkm"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_1ovwb4d",
+            "sourceRef": "Activity_069rxkm",
+            "targetRef": "Activity_01wi6nl"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_17cqdsw",
+            "sourceRef": "Activity_01wi6nl",
+            "targetRef": "Event_0lkfngb"
+        },
+        {
+            "type": "Condition",
+            "description": "Availability",
+            "associatedWith": "Reservation Creation"
+        },
+        {
+            "type": "Process",
+            "description": "Booking",
+            "associatedWith": "Reservation Creation"
+        },
+        {
+            "type": "Process",
+            "description": "Food Orders",
+            "associatedWith": "Order Placement"
+        },
+        {
+            "type": "Condition",
+            "description": "Special Requests",
+            "associatedWith": "Order Placement"
+        },
+        {
+            "type": "Process",
+            "description": "Order Process",
+            "associatedWith": "Order Preparation"
+        },
+        {
+            "type": "Communication",
+            "description": "Prepared Orders",
+            "associatedWith": "Order Preparation"
+        },
+        {
+            "type": "Object",
+            "description": "Food",
+            "associatedWith": "Serving the Order"
+        },
+        {
+            "type": "Location",
+            "description": "Table",
+            "associatedWith": "Serving the Order"
+        },
+        {
+            "type": "Object",
+            "description": "Bill",
+            "associatedWith": "Payment and Billing"
+        },
+        {
+            "type": "Payment Method",
+            "description": "Cash",
+            "associatedWith": "Payment and Billing"
+        },
+        {
+            "type": "Payment Method",
+            "description": "Card",
+            "associatedWith": "Payment and Billing"
+        },
+        {
+            "type": "Payment Method",
+            "description": "Mobile",
+            "associatedWith": "Payment and Billing"
+        }
+    ],
+    "Resto_link_error.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_1y45yut",
+            "name": "Reservation Created"
+        },
+        {
+            "type": "End Event",
+            "id": "Event_0lkfngb",
+            "name": "Process Complete"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_1mw4ofo",
+            "name": "Order Placement"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_0fb8k32",
+            "name": "Order Preparation"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_0n80xpz",
+            "name": "Serving the Order"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_069rxkm",
+            "name": "Payment and Billing"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_01wi6nl",
+            "name": "Feedback and Departure"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0h21x7r",
+            "sourceRef": "StartEvent_1y45yut",
+            "targetRef": "Activity_1mw4ofo"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0zchwar",
+            "sourceRef": "Activity_1mw4ofo",
+            "targetRef": "Activity_0fb8k32"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0qfo8j1",
+            "sourceRef": "Activity_0fb8k32",
+            "targetRef": "Activity_0n80xpz"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0ttewy3",
+            "sourceRef": "Activity_0n80xpz",
+            "targetRef": "Activity_069rxkm"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_1ovwb4d",
+            "sourceRef": "Activity_069rxkm",
+            "targetRef": "Activity_01wi6nl"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_17cqdsw",
+            "sourceRef": "Activity_01wi6nl",
+            "targetRef": "Event_0lkfngb"
+        },
+        {
+            "type": "Process",
+            "description": "Food Orders",
+            "associatedWith": "Order Placement"
+        },
+        {
+            "type": "Condition",
+            "description": "Special Requests",
+            "associatedWith": "Order Placement"
+        },
+        {
+            "type": "Process",
+            "description": "Order Process",
+            "associatedWith": "Order Preparation"
+        },
+        {
+            "type": "Communication",
+            "description": "Prepared Orders",
+            "associatedWith": "Order Preparation"
+        },
+        {
+            "type": "Object",
+            "description": "Food",
+            "associatedWith": "Serving the Order"
+        },
+        {
+            "type": "Location",
+            "description": "Table",
+            "associatedWith": "Serving the Order"
+        },
+        {
+            "type": "Object",
+            "description": "Bill",
+            "associatedWith": "Payment and Billing"
+        },
+        {
+            "type": "Payment Method",
+            "description": "Cash",
+            "associatedWith": "Payment and Billing"
+        },
+        {
+            "type": "Payment Method",
+            "description": "Card",
+            "associatedWith": "Payment and Billing"
+        },
+        {
+            "type": "Payment Method",
+            "description": "Mobile",
+            "associatedWith": "Payment and Billing"
+        }
+    ],
+    "Restarant_task_error.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_1y45yut",
+            "name": "Reservation Made"
+        },
+        {
+            "type": "End Event",
+            "id": "Event_0lkfngb",
+            "name": "Process Complete"
+        },
+        {
+            "type": "End Event",
+            "id": "Event_1tsai0j",
+            "name": ""
+        },
+        {
+            "type": "Task",
+            "id": "Activity_1mw4ofo",
+            "name": "Order Placement"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_0n80xpz",
+            "name": "Serving the Order"
+        },
+        {
+            "type": "Task",
+            "id": "Activity_069rxkm",
+            "name": "Payment and Billing"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_06dboho",
+            "name": "Reservation Found?"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0h21x7r",
+            "sourceRef": "StartEvent_1y45yut",
+            "targetRef": "Gateway_06dboho"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_069rxq4",
+            "sourceRef": "Gateway_06dboho",
+            "targetRef": "Activity_1mw4ofo"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0irmk8j",
+            "sourceRef": "Gateway_06dboho",
+            "targetRef": "Event_1tsai0j"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0zchwar",
+            "sourceRef": "Activity_1mw4ofo",
+            "targetRef": "Activity_0n80xpz"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_0ttewy3",
+            "sourceRef": "Activity_0n80xpz",
+            "targetRef": "Activity_069rxkm"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "Flow_1ovwb4d",
+            "sourceRef": "Activity_069rxkm",
+            "targetRef": "Event_0lkfngb"
+        },
+        {
+            "type": "Process",
+            "description": "Food Orders",
+            "associatedWith": "Order Placement"
+        },
+        {
+            "type": "Condition",
+            "description": "Special Requests",
+            "associatedWith": "Order Placement"
+        },
+        {
+            "type": "Object",
+            "description": "Food",
+            "associatedWith": "Serving the Order"
+        },
+        {
+            "type": "Location",
+            "description": "Table",
+            "associatedWith": "Serving the Order"
+        },
+        {
+            "type": "Object",
+            "description": "Bill",
+            "associatedWith": "Payment and Billing"
+        },
+        {
+            "type": "Payment Method",
+            "description": "Cash",
+            "associatedWith": "Payment and Billing"
+        },
+        {
+            "type": "Payment Method",
+            "description": "Card",
+            "associatedWith": "Payment and Billing"
+        },
+        {
+            "type": "Payment Method",
+            "description": "Mobile",
+            "associatedWith": "Payment and Billing"
+        }
+    ]
+}

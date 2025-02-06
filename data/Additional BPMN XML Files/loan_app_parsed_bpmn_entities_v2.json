@@ -1,0 +1,382 @@
+{
+    "Loan_app_link_1.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_1y45yut",
+            "name": "Loan Application Received"
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_16w6fr2",
+            "name": ""
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_0vr1x49",
+            "name": ""
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_1uql8z4",
+            "name": ""
+        },
+        {
+            "type": "Task",
+            "id": "Task_1hcentk",
+            "name": "Initial Document Check"
+        },
+        {
+            "type": "Task",
+            "id": "Task_0qoql8l",
+            "name": "Notify Customer to Resubmit"
+        },
+        {
+            "type": "Task",
+            "id": "Task_0gk38rp",
+            "name": "Credit Evaluation"
+        },
+        {
+            "type": "Task",
+            "id": "Task_0rwk9ie",
+            "name": "Loan Approval"
+        },
+        {
+            "type": "Task",
+            "id": "Task_1omxara",
+            "name": "Notify Customer of Rejection"
+        },
+        {
+            "type": "Task",
+            "id": "Task_0fhllre",
+            "name": "Prepare and Send Agreement"
+        },
+        {
+            "type": "Task",
+            "id": "Task_0w7xhi7",
+            "name": "Loan Disbursement"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "ExclusiveGateway_15hu1pt",
+            "name": "Documents Complete?"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "ExclusiveGateway_0lj3dw1",
+            "name": "Passes Credit Check?"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1m917qi",
+            "sourceRef": "Task_0qoql8l",
+            "targetRef": "EndEvent_1uql8z4"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_0rjn1nt",
+            "sourceRef": "ExclusiveGateway_0lj3dw1",
+            "targetRef": "Task_0rwk9ie"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1bbe9cw",
+            "sourceRef": "ExclusiveGateway_0lj3dw1",
+            "targetRef": "Task_1omxara"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1g6wcli",
+            "sourceRef": "Task_1omxara",
+            "targetRef": "EndEvent_16w6fr2"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_06vx95a",
+            "sourceRef": "Task_0w7xhi7",
+            "targetRef": "EndEvent_0vr1x49"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_0h21x7r",
+            "sourceRef": "StartEvent_1y45yut",
+            "targetRef": "Task_1hcentk"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_15ytbzl",
+            "sourceRef": "Task_1hcentk",
+            "targetRef": "ExclusiveGateway_15hu1pt"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1y5fxqh",
+            "sourceRef": "ExclusiveGateway_15hu1pt",
+            "targetRef": "Task_0gk38rp"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_049fk4g",
+            "sourceRef": "ExclusiveGateway_15hu1pt",
+            "targetRef": "Task_0qoql8l"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_00huh00",
+            "sourceRef": "Task_0gk38rp",
+            "targetRef": "ExclusiveGateway_0lj3dw1"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_00acxlx",
+            "sourceRef": "Task_0rwk9ie",
+            "targetRef": "Task_0fhllre"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1x1yitf",
+            "sourceRef": "Task_0fhllre",
+            "targetRef": "Task_0w7xhi7"
+        },
+        {
+            "type": "Condition",
+            "description": "Failed Applications",
+            "associatedWith": "Credit Evaluation"
+        },
+        {
+            "type": "Communication",
+            "description": "Notification to Loan Officer",
+            "associatedWith": "Credit Evaluation"
+        }
+    ],
+    "Loan_App_start_end_error.bpmn": [
+        {
+            "type": "Task",
+            "id": "Task_1hcentk",
+            "name": "Perform Credit Evaluation"
+        },
+        {
+            "type": "Task",
+            "id": "Task_0gk38rp",
+            "name": "Loan Disbursement"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "ExclusiveGateway_15hu1pt",
+            "name": "Passes Credit Check?"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_0h21x7r",
+            "sourceRef": "StartEvent_1y45yut",
+            "targetRef": "Task_1hcentk"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_15ytbzl",
+            "sourceRef": "Task_1hcentk",
+            "targetRef": "ExclusiveGateway_15hu1pt"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1y5fxqh",
+            "sourceRef": "ExclusiveGateway_15hu1pt",
+            "targetRef": "Task_0gk38rp"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_049fk4g",
+            "sourceRef": "ExclusiveGateway_15hu1pt",
+            "targetRef": "Task_0gk38rp"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_00huh00",
+            "sourceRef": "Task_0gk38rp",
+            "targetRef": "EndEvent_0m4i9a7"
+        }
+    ],
+    "Loan_App_Task_Errors.bpmn": [
+        {
+            "type": "End Event",
+            "id": "EndEvent_16w6fr2",
+            "name": ""
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_0vr1x49",
+            "name": ""
+        },
+        {
+            "type": "Task",
+            "id": "Task_05m6tfc",
+            "name": "Notify Customer to Resubmit"
+        },
+        {
+            "type": "Task",
+            "id": "Task_028ldjq",
+            "name": "Credit Evaluation"
+        },
+        {
+            "type": "Task",
+            "id": "Task_1omxara",
+            "name": "Notify Customer of Rejection"
+        },
+        {
+            "type": "Task",
+            "id": "Task_0rwk9ie",
+            "name": "Loan Approval"
+        },
+        {
+            "type": "Task",
+            "id": "Task_0fhllre",
+            "name": "Prepare and Send Agreement"
+        },
+        {
+            "type": "Task",
+            "id": "Task_0w7xhi7",
+            "name": "Loan Disbursement"
+        },
+        {
+            "type": "Task",
+            "id": "Task_0murkkd",
+            "name": "Initial Document Check"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "ExclusiveGateway_06dboho",
+            "name": "Documents Complete?"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "ExclusiveGateway_0dzfehw",
+            "name": "Passes Credit Check?"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1oernj2",
+            "sourceRef": "Task_0murkkd",
+            "targetRef": "ExclusiveGateway_06dboho"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_069rxq4",
+            "sourceRef": "ExclusiveGateway_06dboho",
+            "targetRef": "Task_05m6tfc"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1gic80p",
+            "sourceRef": "Task_05m6tfc",
+            "targetRef": "Task_0murkkd"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_00nxkwx",
+            "sourceRef": "Task_028ldjq",
+            "targetRef": "ExclusiveGateway_0dzfehw"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_12t23s0",
+            "sourceRef": "ExclusiveGateway_0dzfehw",
+            "targetRef": "Task_0rwk9ie"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_17kanrn",
+            "sourceRef": "ExclusiveGateway_0dzfehw",
+            "targetRef": "Task_1omxara"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1g6wcli",
+            "sourceRef": "Task_1omxara",
+            "targetRef": "EndEvent_16w6fr2"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_00acxlx",
+            "sourceRef": "Task_0rwk9ie",
+            "targetRef": "Task_0fhllre"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1x1yitf",
+            "sourceRef": "Task_0fhllre",
+            "targetRef": "Task_0w7xhi7"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1bbe9cw",
+            "sourceRef": "Task_0w7xhi7",
+            "targetRef": "EndEvent_0vr1x49"
+        },
+        {
+            "type": "Condition",
+            "description": "Failed Applications",
+            "associatedWith": "Credit Evaluation"
+        },
+        {
+            "type": "Communication",
+            "description": "Notification to Loan Officer",
+            "associatedWith": "Credit Evaluation"
+        }
+    ],
+    "Loan_App_logical_errors.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_1y45yut",
+            "name": "Loan Application Received"
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_0m4i9a7",
+            "name": ""
+        },
+        {
+            "type": "Task",
+            "id": "Task_1hcentk",
+            "name": "Perform Credit Evaluation"
+        },
+        {
+            "type": "Task",
+            "id": "Task_0gk38rp",
+            "name": "Loan Disbursement"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "ExclusiveGateway_15hu1pt",
+            "name": "Passes Credit Check?"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_0h21x7r",
+            "sourceRef": "StartEvent_1y45yut",
+            "targetRef": "Task_1hcentk"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_15ytbzl",
+            "sourceRef": "Task_1hcentk",
+            "targetRef": "ExclusiveGateway_15hu1pt"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1y5fxqh",
+            "sourceRef": "ExclusiveGateway_15hu1pt",
+            "targetRef": "Task_0gk38rp"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_049fk4g",
+            "sourceRef": "ExclusiveGateway_15hu1pt",
+            "targetRef": "Task_0gk38rp"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_00huh00",
+            "sourceRef": "Task_0gk38rp",
+            "targetRef": "EndEvent_0m4i9a7"
+        }
+    ]
+}

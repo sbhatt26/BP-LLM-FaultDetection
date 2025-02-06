@@ -1,0 +1,246 @@
+{
+    "Onboarding_MGMT_Ground_Truth_with_Mixed_Layout_Diagram.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_1",
+            "name": "Offer and Acceptance Start"
+        },
+        {
+            "type": "Task",
+            "id": "Task_OfferAcceptance",
+            "name": "Send Job Offer"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_DocumentComplete",
+            "name": "Documents Complete?"
+        },
+        {
+            "type": "Task",
+            "id": "Task_Documentation",
+            "name": "Collect Documentation"
+        },
+        {
+            "type": "Task",
+            "id": "Task_Preparations",
+            "name": "Pre-Start Preparations"
+        },
+        {
+            "type": "Task",
+            "id": "Task_Orientation",
+            "name": "First Day Orientation"
+        },
+        {
+            "type": "Task",
+            "id": "Task_RoleTraining",
+            "name": "Role-Specific Training"
+        },
+        {
+            "type": "Task",
+            "id": "Task_ProbationReview",
+            "name": "Probation Period Review"
+        },
+        {
+            "type": "Task",
+            "id": "Task_FullIntegration",
+            "name": "Full Integration"
+        },
+        {
+            "type": "Task",
+            "id": "Task_ReviewClosure",
+            "name": "Final Onboarding Review and Closure"
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_1",
+            "name": "Onboarding Complete"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_1",
+            "sourceRef": "StartEvent_1",
+            "targetRef": "Task_OfferAcceptance"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_2",
+            "sourceRef": "Task_OfferAcceptance",
+            "targetRef": "Gateway_DocumentComplete"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_3",
+            "sourceRef": "Gateway_DocumentComplete",
+            "targetRef": "Task_Documentation"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_4",
+            "sourceRef": "Task_Documentation",
+            "targetRef": "Task_Preparations"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_5",
+            "sourceRef": "Task_Preparations",
+            "targetRef": "Task_Orientation"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_6",
+            "sourceRef": "Task_Orientation",
+            "targetRef": "Task_RoleTraining"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_7",
+            "sourceRef": "Task_RoleTraining",
+            "targetRef": "Task_ProbationReview"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_8",
+            "sourceRef": "Task_ProbationReview",
+            "targetRef": "Task_FullIntegration"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_9",
+            "sourceRef": "Task_FullIntegration",
+            "targetRef": "Task_ReviewClosure"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_10",
+            "sourceRef": "Task_ReviewClosure",
+            "targetRef": "EndEvent_1"
+        }
+    ],
+    "Onboarding_MGMT_Task_Error_with_Diagram.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_2",
+            "name": "Task Error Start"
+        },
+        {
+            "type": "Task",
+            "id": "Task_Misconfigured",
+            "name": "Misconfigured Task"
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_2",
+            "name": "End of Task Error"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_Error_1",
+            "sourceRef": "StartEvent_2",
+            "targetRef": "Task_Misconfigured"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_Error_2",
+            "sourceRef": "Task_Misconfigured",
+            "targetRef": "EndEvent_2"
+        }
+    ],
+    "Onboarding_MGMT_End_Start_Error_with_Adjusted_Layout.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_Error3",
+            "name": "Incorrect Start"
+        },
+        {
+            "type": "Task",
+            "id": "Task_EndMismatch",
+            "name": "Task Leading to Incorrect End"
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_Error3",
+            "name": "Mismatched End"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_Mismatch_1",
+            "sourceRef": "StartEvent_Error3",
+            "targetRef": "Task_EndMismatch"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_Mismatch_2",
+            "sourceRef": "Task_EndMismatch",
+            "targetRef": "EndEvent_Error3"
+        }
+    ],
+    "Onboarding_MGMT_Incorrect_Link_with_Diagram_Resolved.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_LinkCorrection",
+            "name": "Start with Link Correction"
+        },
+        {
+            "type": "Task",
+            "id": "Task_LinkFix",
+            "name": "Correct Mislinked Task"
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_LinkCorrected",
+            "name": "Resolved Link End"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_LinkFix_1",
+            "sourceRef": "StartEvent_LinkCorrection",
+            "targetRef": "Task_LinkFix"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_LinkFix_2",
+            "sourceRef": "Task_LinkFix",
+            "targetRef": "EndEvent_LinkCorrected"
+        }
+    ],
+    "Onboarding_MGMT_Logical_Error_with_Diagram.bpmn": [
+        {
+            "type": "Start Event",
+            "id": "StartEvent_LogicalError",
+            "name": "Logical Error Start"
+        },
+        {
+            "type": "Task",
+            "id": "Task_LogicalIssue",
+            "name": "Task with Logical Issue"
+        },
+        {
+            "type": "Exclusive Gateway",
+            "id": "Gateway_LogicDecision",
+            "name": "Logic Checkpoint"
+        },
+        {
+            "type": "End Event",
+            "id": "EndEvent_LogicalError",
+            "name": "End of Logical Error"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_LogicalError_1",
+            "sourceRef": "StartEvent_LogicalError",
+            "targetRef": "Task_LogicalIssue"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_LogicalError_2",
+            "sourceRef": "Task_LogicalIssue",
+            "targetRef": "Gateway_LogicDecision"
+        },
+        {
+            "type": "Sequence Flow",
+            "id": "SequenceFlow_LogicalError_3",
+            "sourceRef": "Gateway_LogicDecision",
+            "targetRef": "EndEvent_LogicalError"
+        }
+    ]
+}
